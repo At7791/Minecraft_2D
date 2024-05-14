@@ -9,7 +9,7 @@ import pygame.transform
 import player_code
 
 class Display():
-    def __init__(self, texturePackFileName):
+    def __init__(self, texturePackFileName, blocksID):
         pygame.init()
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
@@ -18,9 +18,9 @@ class Display():
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
 
-        self.sizeOfBlock = 70
+        self.sizeOfBlock = 10
+        self.blocksID = blocksID
 
-        self.blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block": ["grass_block_side"]}
     def getBlockImage(self, IDofCurrentBlock):
         self.filePath = self.getFilePathFromDictionary(IDofCurrentBlock)
         self.image = pygame.image.load(self.filePath).convert_alpha()
@@ -28,7 +28,7 @@ class Display():
         return self.image
     
     def getFilePathFromDictionary(self, IDofCurrentBlock):
-        self.path = f'{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(IDofCurrentBlock)}.png'
+        self.path = f'{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(IDofCurrentBlock)[0]}.png'
         return self.path 
 
     def displayMain(self, displayedWorld, player):
