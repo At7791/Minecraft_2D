@@ -8,7 +8,7 @@ from player_code import PlayerClass
 done = False
 TPS = 30
 
-sizeX, sizeY = 5, 10
+sizeX, sizeY = 5, 15
 
 testWorld = world_generator(sizeX, sizeY)
 
