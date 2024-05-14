@@ -18,7 +18,7 @@ class Display():
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
 
-        self.zoom = 10
+        self.zoom = 60
         self.blocksID = blocksID
 
     def getBlockImage(self, IDofCurrentBlock):
@@ -32,10 +32,6 @@ class Display():
         return self.path 
 
     def displayMain(self, displayedWorld, player):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_TAB):
-                pygame.quit()
-                sys.exit()
         self.Screen.fill(Color(self.backgroundColor))
         for x in range(len(displayedWorld)):
             for y in range(len(displayedWorld[x])):

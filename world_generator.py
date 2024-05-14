@@ -1,8 +1,6 @@
 from random import *
 
 def world_generator(worldSizeX, worldSizeY, blocksID):
-    print("generates a world and returns a matrix filled with block IDs")
-
     worldMatrix = []
 
     
@@ -15,8 +13,5 @@ def world_generator(worldSizeX, worldSizeY, blocksID):
                 intermediateArray.append("stone")
                 
         worldMatrix.append(intermediateArray)
-
-    for i in range(len(worldMatrix)):
-        print(worldMatrix[i])
 
     return worldMatrix
