@@ -20,7 +20,7 @@ class Display():
 
         self.sizeOfBlock = 70
 
-        self.blocksID = {0: "air", 1: "stone", 2: "dirt", 3: "grass_block_side"}
+        self.blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block": ["grass_block_side"]}
     def getBlockImage(self, IDofCurrentBlock):
         self.filePath = self.getFilePathFromDictionary(IDofCurrentBlock)
         self.image = pygame.image.load(self.filePath).convert_alpha()
