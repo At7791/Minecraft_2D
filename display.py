@@ -18,7 +18,7 @@ class Display():
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
 
-        self.sizeOfBlock = 100
+        self.sizeOfBlock = 70
 
         self.blocksID = {0: "air", 1: "stone", 2: "dirt", 3: "grass_block_side"}
     def getBlockImage(self, IDofCurrentBlock):
