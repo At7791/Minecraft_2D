@@ -18,13 +18,13 @@ class Display():
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
 
-        self.sizeOfBlock = 10
+        self.zoom = 10
         self.blocksID = blocksID
 
     def getBlockImage(self, IDofCurrentBlock):
         self.filePath = self.getFilePathFromDictionary(IDofCurrentBlock)
         self.image = pygame.image.load(self.filePath).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (self.sizeOfBlock, self.sizeOfBlock))
+        self.image = pygame.transform.scale(self.image, (self.zoom, self.zoom))
         return self.image
     
     def getFilePathFromDictionary(self, IDofCurrentBlock):
@@ -41,10 +41,10 @@ class Display():
             for y in range(len(displayedWorld[x])):
                 if displayedWorld[x][y] != 0:
 
-                    self.xBlock = - player.getPlayerCoordinates()[0] * self.sizeOfBlock + self.windowSizeX // 2 + self.sizeOfBlock * x
-                    self.yBlock = player.getPlayerCoordinates()[1] * self.sizeOfBlock + self.windowSizeY // 2 - self.sizeOfBlock * (y + 1)
-                    self.Screen.blit(self.getBlockImage(displayedWorld[x][y]), (self.xBlock, self.yBlock, self.sizeOfBlock, self.sizeOfBlock))
+                    self.xBlock = - player.getPlayerCoordinates()[0] * self.zoom + self.windowSizeX // 2 + self.zoom * x
+                    self.yBlock = player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * (y + 1)
+                    self.Screen.blit(self.getBlockImage(displayedWorld[x][y]), (self.xBlock, self.yBlock, self.zoom, self.zoom))
 
-        player.draw(self.Screen, self.sizeOfBlock, (self.windowSizeX, self.windowSizeY))
+        player.draw(self.Screen, self.zoom, (self.windowSizeX, self.windowSizeY))
                 
         pygame.display.update()
