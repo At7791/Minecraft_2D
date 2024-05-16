@@ -7,6 +7,7 @@ import pygame.image
 import pygame.surface
 import pygame.transform
 import player_code
+from random import randint
 
 class Display():
     def __init__(self, texturePackFileName, blocksID):
@@ -21,11 +22,14 @@ class Display():
         self.zoom = 60
         self.blocksID = blocksID
 
-    def getBlockImage(self, IDofCurrentBlock):
-        self.filePath = self.getFilePathFromDictionary(IDofCurrentBlock)
-        self.image = pygame.image.load(self.filePath).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (self.zoom, self.zoom))
-        return self.image
+        self.blockImages = {}
+        for i in self.blocksID.keys():
+            if i != "air":
+                self.path = f'{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(i)[0]}.png'
+                self.image = pygame.image.load(self.path).convert_alpha()
+                self.image = pygame.transform.scale(self.image, (self.zoom, self.zoom))
+                self.blockImages[i] = self.image
+
     
     def getFilePathFromDictionary(self, IDofCurrentBlock):
         self.path = f'{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(IDofCurrentBlock)[0]}.png'
@@ -36,10 +40,10 @@ class Display():
         for x in range(len(displayedWorld)):
             for y in range(len(displayedWorld[x])):
                 if displayedWorld[x][y] != 0:
-
                     self.xBlock = - player.getPlayerCoordinates()[0] * self.zoom + self.windowSizeX // 2 + self.zoom * x
                     self.yBlock = player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * (y + 1)
-                    self.Screen.blit(self.getBlockImage(displayedWorld[x][y]), (self.xBlock, self.yBlock, self.zoom, self.zoom))
+                    self.Screen.blit(self.blockImages[displayedWorld[x][y]], (self.xBlock, self.yBlock, self.zoom, self.zoom))
+                    # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.xBlock, self.yBlock, self.zoom, self.zoom))
 
         player.draw(self.Screen, self.zoom, (self.windowSizeX, self.windowSizeY))
                 

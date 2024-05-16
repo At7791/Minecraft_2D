@@ -1,3 +1,4 @@
+import pygame
 from pygame import *
 import sys
 from display import Display
@@ -11,19 +12,21 @@ blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block":
 done = False
 TPS = 30
 
-sizeX, sizeY = 50,50
+
+
+sizeX, sizeY = 10, 500
 
 testWorld = world_generator(sizeX, sizeY, blocksID)
 
-dis = Display("Faithful64x", blocksID)
+clock = pygame.time.Clock()
+dis = Display("Faithful64x", blocksID) 
 player = PlayerClass(sizeX, sizeY)
 events = Events()
 
 while not done:
-
     events.eventsMain()
     player.updates(events)
     dis.displayMain(testWorld, player)
 
-
+    clock.tick(TPS)
 quit()
