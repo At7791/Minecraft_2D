@@ -4,8 +4,8 @@ import sys
 from display import Display
 from random import *
 from world_generator import world_generator
-from player_code import PlayerClass
-from event_controler import Events
+from entity_code import EntityClass, PlayerClass
+from event_controler import Events 
 import time
 
 blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block": ["grass_block_side"], "bedrock": ["bedrock"]}
@@ -22,7 +22,7 @@ testWorld = world_generator(sizeX, sizeY, blocksID)
 
 clock = pygame.time.Clock()
 dis = Display("Faithful64x", blocksID) 
-player = PlayerClass(sizeX, sizeY)
+player = PlayerClass()
 events = Events()
 
 while not done:

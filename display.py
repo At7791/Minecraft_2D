@@ -6,7 +6,7 @@ import pygame.draw
 import pygame.image
 import pygame.surface
 import pygame.transform
-import player_code
+import entity_code
 from random import randint
 
 class Display():
