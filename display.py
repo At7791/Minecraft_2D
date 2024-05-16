@@ -44,7 +44,8 @@ class Display():
                     self.yBlock = player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * (y + 1)
                     self.Screen.blit(self.blockImages[displayedWorld[x][y]], (self.xBlock, self.yBlock, self.zoom, self.zoom))
                     # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.xBlock, self.yBlock, self.zoom, self.zoom))
-
+        pygame.draw.circle(self.Screen, Color("blue"), (- player.getPlayerCoordinates()[0] * self.zoom + self.windowSizeX // 2 + 4 * self.zoom, player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - 2 * self.zoom), self.zoom // 2)
+        pygame.draw.rect(self.Screen, Color("green"), (- player.getPlayerCoordinates()[0] * self.zoom + self.windowSizeX // 2 + self.zoom * player.hitbox.leftBorder, player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * (player.hitbox.lowBorder + 1), self.zoom * player.hitbox.lengthX, self.zoom * player.hitbox.lengthY))
         player.draw(self.Screen, self.zoom, (self.windowSizeX, self.windowSizeY))
                 
         pygame.display.update()

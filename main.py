@@ -12,18 +12,19 @@ blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block":
 
 done = False
 TPS = 20
-FPS = 240
+FPS = 60
 
 
 previousTime = time.time()
-sizeX, sizeY = 10, 500
+sizeX, sizeY = 3, 7
 
-testWorld = world_generator(sizeX, sizeY, blocksID)
-
+worldMatrix = world_generator(sizeX, sizeY, blocksID)
+  
 clock = pygame.time.Clock()
 dis = Display("Faithful64x", blocksID) 
 player = PlayerClass()
 events = Events()
+EntityClass.worldMatrix = worldMatrix
 
 while not done:
     # Calculate delta time
@@ -33,7 +34,7 @@ while not done:
 
     events.eventsMain()
     player.updates(events, deltaTime, TPS)
-    dis.displayMain(testWorld, player)
+    dis.displayMain(worldMatrix, player)
 
     clock.tick(FPS)
 quit()
