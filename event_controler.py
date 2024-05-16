@@ -6,6 +6,8 @@ class Events():
     def __init__(self):
         self.backwardKeyPressed = False
         self.forwardKeyPressed = False
+        self.sprintKeyPressed = False
+        self.jumpKeyPressed = False
 
     def eventsMain(self):
         for event in pygame.event.get():
@@ -25,6 +27,10 @@ class Events():
                     self.forwardKeyPressed = True
                 if event.key == K_s:
                     self.backwardKeyPressed = True
+                if event.key == K_LCTRL:
+                    self.sprintKeyPressed = True
+                if event.key == K_SPACE:
+                    self.jumpKeyPressed = True
 
             # Keys unpressed
             if event.type == KEYUP:
@@ -33,3 +39,7 @@ class Events():
                     self.forwardKeyPressed = False
                 if event.key == K_s:
                     self.backwardKeyPressed = False
+                if event.key == K_LCTRL:
+                    self.sprintKeyPressed = False
+                if event.key == K_SPACE:
+                    self.jumpKeyPressed = False

@@ -10,7 +10,8 @@ def world_generator(worldSizeX, worldSizeY, blocksID):
             if j <2: 
                 intermediateArray.append("bedrock")
             else:
-                intermediateArray.append("stone")
+                if i % 2 == 0:
+                    intermediateArray.append("stone")
                 
         worldMatrix.append(intermediateArray)
 

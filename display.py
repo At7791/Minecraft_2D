@@ -14,7 +14,7 @@ class Display():
         pygame.init()
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
-        self.windowSizeY = Tk().winfo_screenheight() - 200
+        self.windowSizeY = Tk().winfo_screenheight() - 300
         self.windowSizeX = Tk().winfo_screenwidth()
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
