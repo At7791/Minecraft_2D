@@ -10,31 +10,46 @@ import time
 
 blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block": ["grass_block_side"], "bedrock": ["bedrock"]}
 
-done = False
-TPS = 20
-FPS = 60
-
-
-previousTime = time.time()
 sizeX, sizeY = 3, 7
-
 worldMatrix = world_generator(sizeX, sizeY, blocksID)
-  
+running = True 
+
 clock = pygame.time.Clock()
-dis = Display("Faithful64x", blocksID) 
 player = PlayerClass()
+dis = Display("Faithful64x", blocksID, player)
 events = Events()
 EntityClass.worldMatrix = worldMatrix
 
-while not done:
-    # Calculate delta time
-    nowTime = time.time()
-    deltaTime = nowTime - previousTime
-    previousTime = nowTime
+TPS = 20
+FPS = 240
+durationTick = 1 / TPS
+durationFrame = 1 / FPS
+previousTickTime = time.time()
+previousFrameTime = time.time()
 
+previousTime = time.time()
+while running:
+    currentTime = time.time()
+    deltaTime = currentTime - previousFrameTime
+    previousFrameTime = currentTime
+
+# if currentTime - previousTickTime >= durationTick:
+#     previousTickTime = currentTime
     events.eventsMain()
-    player.updates(events, deltaTime, TPS)
-    dis.displayMain(worldMatrix, player)
 
+# if currentTime - previousFrameTime >= durationFrame:
+    player.updatesPhysics(events, deltaTime * TPS)
+    dis.displayMain(worldMatrix, player)
     clock.tick(FPS)
+#         # Calculate delta time
+    # nowTime = time.time()
+    # deltaTime = nowTime - previousTime
+    # previousTime = nowTime
+
+    # events.eventsMain()
+    # player.updatesPhysics(events, deltaTime * TPS)
+    # dis.displayMain(worldMatrix, player)
+
+    # clock.tick(FPS)
+    
 quit()

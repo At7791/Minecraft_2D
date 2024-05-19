@@ -10,7 +10,7 @@ import entity_code
 from random import randint
 
 class Display():
-    def __init__(self, texturePackFileName, blocksID):
+    def __init__(self, texturePackFileName, blocksID, player):
         pygame.init()
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
@@ -18,6 +18,7 @@ class Display():
         self.windowSizeX = Tk().winfo_screenwidth()
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
+        self.player = player
 
         self.zoom = 60
         self.blocksID = blocksID
@@ -35,17 +36,27 @@ class Display():
         self.path = f'{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(IDofCurrentBlock)[0]}.png'
         return self.path 
 
+    def XYonScreen(self, x, y):
+        self.XonScreen = - self.player.getPlayerCoordinates()[0] * self.zoom + self.windowSizeX // 2 + self.zoom * x
+        # self.YonScreen = self.player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * y
+        self.YonScreen = self.player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * (y - 1.6)
+        return self.XonScreen, self.YonScreen
+
     def displayMain(self, displayedWorld, player):
+
         self.Screen.fill(Color(self.backgroundColor))
         for x in range(len(displayedWorld)):
             for y in range(len(displayedWorld[x])):
-                if displayedWorld[x][y] != 0:
-                    self.xBlock = - player.getPlayerCoordinates()[0] * self.zoom + self.windowSizeX // 2 + self.zoom * x
-                    self.yBlock = player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * (y + 1)
-                    self.Screen.blit(self.blockImages[displayedWorld[x][y]], (self.xBlock, self.yBlock, self.zoom, self.zoom))
-                    # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.xBlock, self.yBlock, self.zoom, self.zoom))
-        pygame.draw.circle(self.Screen, Color("blue"), (- player.getPlayerCoordinates()[0] * self.zoom + self.windowSizeX // 2 + 4 * self.zoom, player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - 2 * self.zoom), self.zoom // 2)
-        pygame.draw.rect(self.Screen, Color("green"), (- player.getPlayerCoordinates()[0] * self.zoom + self.windowSizeX // 2 + self.zoom * player.hitbox.leftBorder, player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * (player.hitbox.lowBorder + 1), self.zoom * player.hitbox.lengthX, self.zoom * player.hitbox.lengthY))
-        player.draw(self.Screen, self.zoom, (self.windowSizeX, self.windowSizeY))
-                
+                if displayedWorld[x][y] != "air":
+                    self.Screen.blit(self.blockImages[displayedWorld[x][y]], (self.XYonScreen(x, y + 1), (self.zoom, self.zoom)))
+                # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y), (self.zoom, self.zoom)))
+        
+
+        # debug displayed onjects
+        pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(self.player.hitbox.leftBorder, self.player.hitbox.highBorder), (self.zoom * self.player.hitbox.lengthX, self.zoom * self.player.hitbox.lengthY)))
+        pygame.draw.circle(self.Screen, Color("pink"), (self.XYonScreen(2, 2)), 10)
+
+        pygame.draw.circle(self.Screen, Color("yellow"), (self.XYonScreen(self.player.x, self.player.y)), self.zoom // 6)
+        pygame.draw.circle(self.Screen, Color("red"), (self.windowSizeX // 2, self.windowSizeY // 2), 5)
+
         pygame.display.update()
