@@ -4,7 +4,8 @@ import sys
 from display import Display
 from random import *
 from world_generator import world_generator
-from entity_code import EntityClass, PlayerClass
+from entity_code import EntityClass
+from player_code import PlayerClass
 from event_controler import Events 
 import time
 
@@ -17,7 +18,7 @@ running = True
 clock = pygame.time.Clock()
 player = PlayerClass()
 dis = Display("Faithful64x", blocksID, player)
-events = Events()
+events = Events()   
 EntityClass.worldMatrix = worldMatrix
 
 TPS = 20    

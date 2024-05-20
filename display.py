@@ -49,7 +49,7 @@ class Display():
             for y in range(len(displayedWorld[x])):
                 if displayedWorld[x][y] != "air":
                     self.Screen.blit(self.blockImages[displayedWorld[x][y]], (self.XYonScreen(x, y + 1), (self.zoom, self.zoom)))
-                # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y), (self.zoom, self.zoom)))
+                    # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y), (self.zoom, self.zoom)))
         
 
         # debug displayed onjects
