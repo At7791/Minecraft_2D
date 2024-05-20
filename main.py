@@ -20,36 +20,23 @@ dis = Display("Faithful64x", blocksID, player)
 events = Events()
 EntityClass.worldMatrix = worldMatrix
 
-TPS = 20
+TPS = 20    
 FPS = 240
 durationTick = 1 / TPS
 durationFrame = 1 / FPS
 previousTickTime = time.time()
 previousFrameTime = time.time()
 
-previousTime = time.time()
 while running:
     currentTime = time.time()
-    deltaTime = currentTime - previousFrameTime
-    previousFrameTime = currentTime
 
-# if currentTime - previousTickTime >= durationTick:
-#     previousTickTime = currentTime
-    events.eventsMain()
+    if currentTime - previousTickTime >= durationTick:
+        events.eventsMain()
+        previousTickTime = time.time()
 
-# if currentTime - previousFrameTime >= durationFrame:
-    player.updatesPhysics(events, deltaTime * TPS)
-    dis.displayMain(worldMatrix, player)
-    clock.tick(FPS)
-#         # Calculate delta time
-    # nowTime = time.time()
-    # deltaTime = nowTime - previousTime
-    # previousTime = nowTime
-
-    # events.eventsMain()
-    # player.updatesPhysics(events, deltaTime * TPS)
-    # dis.displayMain(worldMatrix, player)
-
-    # clock.tick(FPS)
-    
+    if currentTime - previousFrameTime >= durationFrame:
+        deltaTime = currentTime - previousFrameTime
+        player.updatesPhysics(events, deltaTime * TPS)
+        dis.displayMain(worldMatrix, player)
+        previousFrameTime = time.time() 
 quit()

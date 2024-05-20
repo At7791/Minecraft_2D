@@ -16,23 +16,40 @@ def world_generator(worldSizeX, worldSizeY, blocksID):
     #     worldMatrix.append(intermediateArray)
 
     worldMatrix = [
-    ["bedrock", "bedrock", "stone", "stone", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "stone"],
+    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "air", "air", "air", "air", "stone", "stone"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "stone"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "stone"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
+    ["air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
     ]
+
+    
+    # worldMatrix = [
+    # ["stone", "stone", "stone"],
+    # ["stone", "air", "stone"],
+    # ["stone", "stone", "bedrock"]
+    # ]
 
     return worldMatrix
