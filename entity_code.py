@@ -5,6 +5,7 @@ from hitbox_code import Hitboxes
         
 class EntityClass():
     worldMatrix = []
+    gravity = - 0.08
     def __init__(self):
         self.x, self.y = float(0), float(0)
         self.nextX, self.nextY = self.x, self.y
@@ -15,7 +16,7 @@ class EntityClass():
         self.xOnScreen = 0
         self.yOnScreen = 0
         self.hitbox = None
-        self.updateY = True
+        self.onGround = False
         
     def isBlockInWorld(self, x = int, y = int):
         if x >= 0 and y >= 0:
@@ -25,20 +26,22 @@ class EntityClass():
                 return False
         return False
 
-    def updatesPhysics(self, calibrationFPS):
+    def updatesPhysics(self, deltaTime, TPS):
         # movement and collision related entity updates
-        self.tx, self.ty = trunc(self.x), trunc(self.y)
         self.hitbox.update(self.x, self.y)
 
         self.nextVelocityX = (self.velocityX * 0.546 + self.accelerationX)
-        self.nextVelocityY = ((self.velocityY - 0.02) * 0.98)
-        self.nextX = self.x + self.nextVelocityX * calibrationFPS
-        self.nextY = self.y + self.nextVelocityY * calibrationFPS
+        self.nextVelocityY = (self.velocityY - 0.08) * 0.98
 
+        self.nextX = self.x + self.nextVelocityX * deltaTime * TPS
+        self.nextY = self.y + self.nextVelocityY * deltaTime * TPS
+
+        # block of air below or above entity
         self.lowAir = True
         self.highAir = True
         self.lowBlockBorder = False
         self.highBlockBorder = False
+        self.onGround = False
 
         if self.nextVelocityY <= 0:
             for block in self.hitbox.lowBlocks():
@@ -54,7 +57,6 @@ class EntityClass():
                         self.highAir = False
                     if self.nextY <= block[1]:  
                         self.highBlockBorder = True
-#
         if self.lowAir and self.highAir:
             self.y = self.nextY
             self.velocityY = self.nextVelocityY
@@ -62,6 +64,7 @@ class EntityClass():
             if self.lowBlockBorder:
                 self.velocityY = 0
                 self.y = trunc(self.y)
+                self.onGround = True
             elif self.highBlockBorder:
                 self.velocityY = 0
                 self.y = trunc(self.hitbox.highBorder) - self.hitbox.lengthY
@@ -83,7 +86,6 @@ class EntityClass():
                         self.leftBlockBorder = True
         if self.velocityX >= 0:
             for block in self.hitbox.rightBlocks():
-                print(block)
                 if self.isBlockInWorld(block[0] + 1, block[1] + 1):
                 
                     if self.__class__.worldMatrix[block[0] + 1][block[1]] != "air":
@@ -91,8 +93,6 @@ class EntityClass():
                     if self.nextX + self.hitbox.offsetWithX >= block[0] + 1:  
                         self.rightBlockBorder = True
 
-
-        
         if self.rightAir and self.leftAir:
             self.x = self.nextX
             self.velocityX = self.nextVelocityX

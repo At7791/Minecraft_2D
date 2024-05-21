@@ -13,9 +13,6 @@ class Events():
         self.debugTrigger1 = False
 
     def eventsMain(self):
-
-        self.jumpKeyPressed = False
-
         for event in pygame.event.get():
             # Exit program through pressing the windows red cross
             if event.type == pygame.QUIT:
@@ -31,7 +28,7 @@ class Events():
                 # Player movement related keys
                 if event.key == K_d:
                     self.forwardKeyPressed = True
-                if event.key == K_q:
+                if event.key == K_a:
                     self.backwardKeyPressed = True
                 if event.key == K_LCTRL:
                     self.sprintKeyPressed = True
@@ -40,18 +37,20 @@ class Events():
 
                 # debug keys
                 if event.key == K_u:
-                    self.tpPlayer = True
+                    self.debugTrigger1 = True
 
             # Keys unpressed
             if event.type == KEYUP:
                 # Player movement related keys
                 if event.key == K_d:
                     self.forwardKeyPressed = False
-                if event.key == K_q:
+                if event.key == K_a:
                     self.backwardKeyPressed = False
                 if event.key == K_LCTRL:
                     self.sprintKeyPressed = False
+                if event.key == K_SPACE:
+                    self.jumpKeyPressed = False
 
                 # debug keys
                 if event.key == K_u:
-                    self.tpPlayer = False
+                    self.debugTrigger1 = False

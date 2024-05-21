@@ -13,7 +13,7 @@ blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block":
 
 sizeX, sizeY = 3, 7
 worldMatrix = world_generator(sizeX, sizeY, blocksID)
-running = True 
+running = True
 
 clock = pygame.time.Clock()
 player = PlayerClass()
@@ -21,8 +21,8 @@ dis = Display("Faithful64x", blocksID, player)
 events = Events()   
 EntityClass.worldMatrix = worldMatrix
 
-TPS = 20    
-FPS = 240
+TPS = 20
+FPS = 20
 durationTick = 1 / TPS
 durationFrame = 1 / FPS
 previousTickTime = time.time()
@@ -37,7 +37,9 @@ while running:
 
     if currentTime - previousFrameTime >= durationFrame:
         deltaTime = currentTime - previousFrameTime
-        player.updatesPhysics(events, deltaTime * TPS)
+        
+        player.updatesPhysics(events, deltaTime, TPS)
         dis.displayMain(worldMatrix, player)
+
         previousFrameTime = time.time() 
 quit()

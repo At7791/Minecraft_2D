@@ -7,11 +7,14 @@ class PlayerClass(EntityClass):
     def __init__(self):
         super().__init__()
         self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float(2.5), float(1)
+        self.x, self.y = float(2.5), float(6)
         
 
-    def updatesPhysics(self, events, calibrationFPS):
-        super().updatesPhysics(calibrationFPS)
+    def updatesPhysics(self, events, deltaTime, TPS):
+        super().updatesPhysics(deltaTime, TPS)
+        self.accelerationY = 0
+        if abs(self.velocityY) < 0.003:
+            self.velocityY = 0
 
         # applies the effect to the player movement of the keypresses
         if events.forwardKeyPressed == True:
@@ -26,8 +29,9 @@ class PlayerClass(EntityClass):
             self.velocityY = 0.42
 
         if events.debugTrigger1 == True:
-            self.y = 0
-            self.x = 0
+            self.y = 10
+            self.x = 10
+        print(self.velocityY)
 
     def draw(self, surface, zoom, windowSize):
         self.windowSizeX, self.windowSizeY = windowSize
