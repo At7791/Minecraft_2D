@@ -28,7 +28,7 @@ class Events():
                 # Player movement related keys
                 if event.key == K_d:
                     self.forwardKeyPressed = True
-                if event.key == K_a:
+                if event.key == K_q:
                     self.backwardKeyPressed = True
                 if event.key == K_LCTRL:
                     self.sprintKeyPressed = True
@@ -44,7 +44,7 @@ class Events():
                 # Player movement related keys
                 if event.key == K_d:
                     self.forwardKeyPressed = False
-                if event.key == K_a:
+                if event.key == K_q:
                     self.backwardKeyPressed = False
                 if event.key == K_LCTRL:
                     self.sprintKeyPressed = False

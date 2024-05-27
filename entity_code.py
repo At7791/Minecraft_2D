@@ -1,6 +1,6 @@
 import pygame, math, hitbox_code
 from pygame import *
-from math import trunc
+from math import trunc, pow
 from hitbox_code import Hitboxes
         
 class EntityClass():
@@ -26,15 +26,17 @@ class EntityClass():
                 return False
         return False
 
-    def updatesPhysics(self, deltaTime, TPS):
+    def updatesPhysics(self, calibrationFPS):
         # movement and collision related entity updates
         self.hitbox.update(self.x, self.y)
 
         self.nextVelocityX = (self.velocityX * 0.546 + self.accelerationX)
-        self.nextVelocityY = (self.velocityY - 0.08) * 0.98
 
-        self.nextX = self.x + self.nextVelocityX * deltaTime * TPS
-        self.nextY = self.y + self.nextVelocityY * deltaTime * TPS
+        self.nextVelocityY = (self.velocityY - (0.08 * calibrationFPS)) * pow(0.98, calibrationFPS)
+        # print(round(deltaTime * TPS, 2), deltaTime * TPS)
+
+        self.nextX = self.x + self.nextVelocityX * calibrationFPS
+        self.nextY = self.y + self.nextVelocityY * calibrationFPS
 
         # block of air below or above entity
         self.lowAir = True
@@ -96,6 +98,7 @@ class EntityClass():
         if self.rightAir and self.leftAir:
             self.x = self.nextX
             self.velocityX = self.nextVelocityX
+            
         else:
             if self.rightBlockBorder:
                 self.velocityX = 0
