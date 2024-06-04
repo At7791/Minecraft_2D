@@ -8,19 +8,22 @@ import pygame.surface
 import pygame.transform
 import entity_code
 from random import randint
+from math import trunc
 
 class Display():
     def __init__(self, texturePackFileName, blocksID, player):
         pygame.init()
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
-        self.windowSizeY = Tk().winfo_screenheight() - 300
+        self.windowSizeY = Tk().winfo_screenheight()
         self.windowSizeX = Tk().winfo_screenwidth()
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
         self.player = player
+        self.renderDistanceX = 8
+        self.renderDistanceY = 8
 
-        self.zoom = 60
+        self.zoom = 90
         self.blocksID = blocksID
 
         self.blockImages = {}
@@ -42,19 +45,20 @@ class Display():
         self.YonScreen = self.player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * (y - 1.6)
         return self.XonScreen, self.YonScreen
 
-    def displayMain(self, displayedWorld, player):
+    def displayMain(self, displayedWorld):
 
         self.Screen.fill(Color(self.backgroundColor))
         for x in range(len(displayedWorld)):
+            # if x > round(self.player.x - self.renderDistance)  and x < round(self.player.x + self.renderDistance):
             for y in range(len(displayedWorld[x])):
                 if displayedWorld[x][y] != "air":
-                    self.Screen.blit(self.blockImages[displayedWorld[x][y]], (self.XYonScreen(x, y + 1), (self.zoom, self.zoom)))
-                    # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y), (self.zoom, self.zoom)))
+                    self.Screen.blit(self.blockImages[displayedWorld[x][y]], (self.XYonScreen(x + self.player.getPlayerCoordinates()[0] - 5, y + 1), (self.zoom, self.zoom)))
+                    # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y + 1), (self.zoom, self.zoom)))
         
 
         # debug displayed onjects
-        pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(self.player.hitbox.leftBorder, self.player.hitbox.highBorder), (self.zoom * self.player.hitbox.lengthX, self.zoom * self.player.hitbox.lengthY)))
-        pygame.draw.circle(self.Screen, Color("pink"), (self.XYonScreen(2, 2)), 10)
+        pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(self.player.hitbox.leftBorder, self.player.hitbox.highBorder), (self.zoom * self.player.hitbox.lengthX, self.zoom * self.player.hitbox.lengthY)), 10)
+        pygame.draw.circle(self.Screen, Color("pink"), (self.XYonScreen(0, 2)), 10)
 
         pygame.draw.circle(self.Screen, Color("yellow"), (self.XYonScreen(self.player.x, self.player.y)), self.zoom // 6)
         pygame.draw.circle(self.Screen, Color("red"), (self.windowSizeX // 2, self.windowSizeY // 2), 5)

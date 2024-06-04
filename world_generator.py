@@ -45,9 +45,49 @@ def world_generator(worldSizeX, worldSizeY, blocksID):
     ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
     ]
 
-    
+    worldMatrix = []
+    for i in range(2000):
+        worldMatrix.append([ "bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air",])
+        worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air",])
+        worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air",])
+        worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air",])
+        worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air",])
     # worldMatrix = [
     # ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
+    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
     # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
     # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
     # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],

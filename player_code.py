@@ -7,7 +7,7 @@ class PlayerClass(EntityClass):
     def __init__(self):
         super().__init__()
         self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float(2.5), float(6)
+        self.x, self.y = float(0.5), float(3)
         self.count = 0
         
 
@@ -25,7 +25,7 @@ class PlayerClass(EntityClass):
         else:
             self.accelerationX = 0
         if events.sprintKeyPressed == True:
-            self.accelerationX *= 1.3
+            self.accelerationX *= 1.3 * 5
         if events.jumpKeyPressed == True and self.onGround == True:
             self.velocityY = 0.42
 
@@ -34,10 +34,10 @@ class PlayerClass(EntityClass):
             self.x = 7.5
             self.count = 0
         
-        if self.velocityY < -3.91990:
-            print(self.count, self.velocityY)
-        else:
-            print(self.velocityY)
+        # if self.velocityY < -3.91990:
+        #     print(self.count, self.velocityY)
+        # else:
+        #     print(self.velocityY)
 
     def draw(self, surface, zoom, windowSize):
         self.windowSizeX, self.windowSizeY = windowSize
