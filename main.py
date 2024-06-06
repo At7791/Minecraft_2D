@@ -17,7 +17,6 @@ worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
 worldLoadDistance = 5
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 
-print(worldMatrix)
 
 running = True
 

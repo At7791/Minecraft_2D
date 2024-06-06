@@ -46,13 +46,14 @@ class Display():
         return self.XonScreen, self.YonScreen
 
     def displayMain(self, displayedWorld):
-
         self.Screen.fill(Color(self.backgroundColor))
-        for x in range(len(displayedWorld)):
+        for chunk in displayedWorld:
+            blockX = chunk[1]
             # if x > round(self.player.x - self.renderDistance)  and x < round(self.player.x + self.renderDistance):
-            for y in range(len(displayedWorld[x])):
-                if displayedWorld[x][y] != "air":
-                    self.Screen.blit(self.blockImages[displayedWorld[x][y]], (self.XYonScreen(x + self.player.getPlayerCoordinates()[0] - 5, y + 1), (self.zoom, self.zoom)))
+            for blockY in range(len(chunk[0])):
+                blockY
+                if chunk[0][blockX][blockY] != "air":
+                    self.Screen.blit(self.blockImages[chunk[0][blockX][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
                     # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y + 1), (self.zoom, self.zoom)))
         
 
