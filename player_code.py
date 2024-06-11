@@ -7,7 +7,7 @@ class PlayerClass(EntityClass):
     def __init__(self):
         super().__init__()
         self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float(0.5), float(3)
+        self.x, self.y = float(30.5), float(5)
         self.count = 0
         
 
@@ -27,7 +27,7 @@ class PlayerClass(EntityClass):
         if events.sprintKeyPressed == True:
             self.accelerationX *= 1.3 * 5
         if events.jumpKeyPressed == True and self.onGround == True:
-            self.velocityY = 0.42
+            self.velocityY = 0.7
 
         if events.debugTrigger1 == True:
             self.y = 10

@@ -14,7 +14,7 @@ blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block":
 
 sizeX, sizeY = 3, 7
 worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
-worldLoadDistance = 5
+worldLoadDistance = 10
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 
 
@@ -25,6 +25,7 @@ player = PlayerClass()
 dis = Display("Faithful64x", blocksID, player)
 events = Events()
 EntityClass.worldMatrix = worldMatrix
+
 
 TPS = 20
 FPS = 60
@@ -64,7 +65,6 @@ while running:
     # Event Tick Loop (20 times per second)
     while accumulatorTicks >= durationTick:
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
-        EntityClass.worldMatrix = worldMatrix
         events.eventsMain()
         accumulatorTicks -= durationTick
         numberOfTicks += 1
@@ -72,6 +72,9 @@ while running:
     # Frames and Physics Loop (as many times per second as there are Frames per second)
     while accumulatorFrames >= durationFrame:
         deltaTime = accumulatorFrames
+
+        EntityClass.worldMatrix = worldMatrix
+        EntityClass.worldLoadDistance = worldLoadDistance
         player.updatesPhysics(events, deltaTime * TPS)
         dis.displayMain(worldMatrix)
         accumulatorFrames -= durationFrame
