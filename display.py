@@ -23,7 +23,7 @@ class Display():
         self.renderDistanceX = 8
         self.renderDistanceY = 8
 
-        self.zoom = 90
+        self.zoom = 20          #field of vision:       zoom out < zoom in
         self.blocksID = blocksID
 
         self.blockImages = {}

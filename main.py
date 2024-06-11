@@ -12,9 +12,9 @@ import time
 
 blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block": ["grass_block_side"], "bedrock": ["bedrock"]}
 
-sizeX, sizeY = 3, 7
+sizeX, sizeY =  200, 50
 worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
-worldLoadDistance = 5
+worldLoadDistance = 30
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 
 

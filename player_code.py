@@ -7,7 +7,7 @@ class PlayerClass(EntityClass):
     def __init__(self):
         super().__init__()
         self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float(0.5), float(3)
+        self.x, self.y = float(0.5), float(16)       #   player.coordinate.x    player.coordinate.y
         self.count = 0
         
 

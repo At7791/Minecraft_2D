@@ -62,20 +62,20 @@ class EntityClass():
                         self.highBlockBorder = True # will the entity cross the blockborder of the block above in the next iteration
 
         # applies or not the effect of a collision of the entity with a block on the Y axis
-        if self.lowAir and self.highAir:
-            self.y = self.nextY
-            self.velocityY = self.nextVelocityY
-        else:
-            if self.lowBlockBorder:
-                self.velocityY = 0
-                self.y = trunc(self.y)
-                self.onGround = True
-            elif self.highBlockBorder:
-                self.velocityY = 0
-                self.y = trunc(self.hitbox.highBorder) - self.hitbox.lengthY
-            else:
-                self.y = self.nextY
-                self.velocityY = self.nextVelocityY
+        # if self.lowAir and self.highAir:
+        #     self.y = self.nextY
+        #     self.velocityY = self.nextVelocityY
+        # else:
+        #     if self.lowBlockBorder:
+        #         self.velocityY = 0
+        #         self.y = trunc(self.y)
+        #         self.onGround = True
+        #     elif self.highBlockBorder:
+        #         self.velocityY = 0
+        #         self.y = trunc(self.hitbox.highBorder) - self.hitbox.lengthY
+        #     else:
+        #         self.y = self.nextY
+        #         self.velocityY = self.nextVelocityY
 
         # resets the booleans before tests
         self.rightAir = True
