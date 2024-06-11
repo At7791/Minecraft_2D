@@ -52,8 +52,8 @@ class Display():
             # if x > round(self.player.x - self.renderDistance)  and x < round(self.player.x + self.renderDistance):
             for blockY in range(len(chunk[0])):
                 blockY
-                if chunk[0][blockX][blockY] != "air":
-                    self.Screen.blit(self.blockImages[chunk[0][blockX][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
+                if chunk[0][blockY] != "air":
+                    self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
                     # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y + 1), (self.zoom, self.zoom)))
         
 

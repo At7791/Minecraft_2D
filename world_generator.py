@@ -15,35 +15,35 @@ def world_generator(worldSizeX, worldSizeY, blocksID):
                 
     #     worldMatrix.append(intermediateArray)
 
-    worldMatrix = [
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
-    ["air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "air", "air", "stone", "stone", "stone", "stone"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "stone"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "stone"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
-    ["air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "stone", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ]
+    #worldMatrix = [
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
+    #["air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "stone", "stone", "air", "air", "stone", "stone", "stone", "stone"],
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "stone"],
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "stone"],
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
+    #["air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "stone", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "stone", "stone", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "stone", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
+    #]
 
     worldMatrix = []
     for i in range(2000):
@@ -52,6 +52,8 @@ def world_generator(worldSizeX, worldSizeY, blocksID):
         worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air",])
         worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air",])
         worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air",])
+    
+    
     # worldMatrix = [
     # ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone",],
     # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
