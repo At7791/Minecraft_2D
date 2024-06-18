@@ -62,6 +62,7 @@ class EntityClass():
             for block in self.hitbox.highBlocks():
                 if self.isBlockInWorld(block[0], block[1] + 1):
                     if self.__class__.worldMatrix[self.worldLoadDistance + i - 1][0][block[1]] != "air":
+                        print(self.__class__.worldMatrix[self.worldLoadDistance + i - 1][0][block[1]])
                         self.highAir = False        # is there an air block above the entity
                     if self.nextY <= block[1]:  
                         self.highBlockBorder = True # will the entity cross the blockborder of the block above in the next iteration
@@ -92,7 +93,7 @@ class EntityClass():
             i = 0
             for block in self.hitbox.leftBlocks():
                 if self.isBlockInWorld(block[0] - 1, block[1]): 
-                    if self.__class__.worldMatrix[self.worldLoadDistance + i - 2][0][block[1]] != "air":
+                    if self.__class__.worldMatrix[self.worldLoadDistance - 2][0][block[1]] != "air":
                         self.leftAir = False            # is there an air block to the left of the entity
                     if self.nextX - self.hitbox.offsetWithX <= block[0]:  
                         self.leftBlockBorder = True     # will the entity cross the blockborder of the block to the left in the next iteration
@@ -101,7 +102,7 @@ class EntityClass():
             i = 0
             for block in self.hitbox.rightBlocks():
                 if self.isBlockInWorld(block[0] - 1, block[1]):
-                    if self.__class__.worldMatrix[self.worldLoadDistance + i - 1][0][block[1]] != "air":
+                    if self.__class__.worldMatrix[self.worldLoadDistance][0][block[1]] != "air":
                         self.rightAir = False           # is there an air block to the right of the entity
                     if self.nextX + self.hitbox.offsetWithX >= block[0] + 1:
                         self.rightBlockBorder = True    # will the entity cross the blockborder of the block to the right in the next iteration

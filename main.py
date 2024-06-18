@@ -69,7 +69,7 @@ while running:
         accumulatorTicks -= durationTick
         numberOfTicks += 1
 
-    # Frames and Physics Loop (as many times per second as there are Frames per second)
+    # Frames and Physics Loop (as many times per second as there are Frames per second
     while accumulatorFrames >= durationFrame:
         deltaTime = accumulatorFrames
 
@@ -77,6 +77,8 @@ while running:
         EntityClass.worldLoadDistance = worldLoadDistance
         player.updatesPhysics(events, deltaTime * TPS)
         dis.displayMain(worldMatrix)
+        dis.displayOverlay(events)
+        pygame.display.update()
         accumulatorFrames -= durationFrame
         numberOfFrames += 1
 

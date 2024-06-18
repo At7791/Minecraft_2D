@@ -15,13 +15,16 @@ class Display():
         pygame.init()
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
-        self.windowSizeY = Tk().winfo_screenheight() - 200
         self.windowSizeX = Tk().winfo_screenwidth()
+        self.windowSizeY = Tk().winfo_screenheight() - 200
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
+        self.font = pygame.font.SysFont("Minecraft Regular", 50)
         self.player = player
         self.renderDistanceX = 8
         self.renderDistanceY = 8
+
+        self.F3DebugScreenActive = True
 
         self.zoom = 90
         self.blocksID = blocksID
@@ -62,5 +65,13 @@ class Display():
 
         pygame.draw.circle(self.Screen, Color("yellow"), (self.XYonScreen(self.player.x, self.player.y)), self.zoom // 6)
         pygame.draw.circle(self.Screen, Color("red"), (self.windowSizeX // 2, self.windowSizeY // 2), 5)
-
-        pygame.display.update()
+    
+    def displayOverlay(self, events):
+        # Minecraft F3 Debug Screen
+        if events.f3KeyPressed:
+            self.F3DebugScreenActive = not self.F3DebugScreenActive
+        
+        if self.F3DebugScreenActive:
+            displayedString = f"X: {float(self.player.x):9.3f} Y: {float(self.player.y):9.3f}  test:{self.player.highAir}"
+            textColor = "#000000"
+            self.Screen.blit(self.font.render(displayedString, False, textColor), (10, 10))
