@@ -14,7 +14,7 @@ blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block":
 
 sizeX, sizeY = 3, 7
 worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
-worldLoadDistance = 10
+worldLoadDistance = 15
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 
 
@@ -75,10 +75,11 @@ while running:
 
         EntityClass.worldMatrix = worldMatrix
         EntityClass.worldLoadDistance = worldLoadDistance
-        player.updatesPhysics(events, deltaTime * TPS)
+        player.updatesPhysics(events, deltaTime * TPS, dis)
+        pygame.display.update()
         dis.displayMain(worldMatrix)
         dis.displayOverlay(events)
-        pygame.display.update()
+
         accumulatorFrames -= durationFrame
         numberOfFrames += 1
 

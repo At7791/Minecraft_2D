@@ -2,6 +2,9 @@ import pygame, math, hitbox_code
 from pygame import *
 from math import trunc, pow
 from hitbox_code import Hitboxes
+from random import randint
+
+
         
 class EntityClass():
     worldMatrix = []        # Class Variable, contains the World Matrix
@@ -28,7 +31,7 @@ class EntityClass():
                 return False
         return False
 
-    def updatesPhysics(self, calibrationFPS):   # movement and collision related entity updates
+    def updatesPhysics(self, calibrationFPS, dis):   # movement and collision related entity updates
         self.hitbox.update(self.x, self.y)
 
         self.nextVelocityX = (self.velocityX * 0.546 + self.accelerationX)
@@ -60,9 +63,10 @@ class EntityClass():
         if self.nextVelocityY >= 0: # if the entity is going up
             i = 0
             for block in self.hitbox.highBlocks():
+                pygame.draw.rect(dis.Screen, Color("red"), (dis.XYonScreen(block[0], block[1] + 1), (dis.zoom, dis.zoom)))
                 if self.isBlockInWorld(block[0], block[1] + 1):
-                    if self.__class__.worldMatrix[self.worldLoadDistance + i - 1][0][block[1]] != "air":
-                        print(self.__class__.worldMatrix[self.worldLoadDistance + i - 1][0][block[1]])
+                    print(self.__class__.worldMatrix[self.worldLoadDistance + i - 1][0][block[1]], self.worldLoadDistance + i - 1, self.__class__.worldMatrix[self.worldLoadDistance + i - 1][0][block[1]] != "air")
+                    if self.__class__.worldMatrix[trunc(self.worldLoadDistance + i - self.hitbox.offsetWithX - 0.5001)][0][block[1]] != "air":
                         self.highAir = False        # is there an air block above the entity
                     if self.nextY <= block[1]:  
                         self.highBlockBorder = True # will the entity cross the blockborder of the block above in the next iteration
@@ -93,7 +97,7 @@ class EntityClass():
             i = 0
             for block in self.hitbox.leftBlocks():
                 if self.isBlockInWorld(block[0] - 1, block[1]): 
-                    if self.__class__.worldMatrix[self.worldLoadDistance - 2][0][block[1]] != "air":
+                    if self.__class__.worldMatrix[trunc(self.worldLoadDistance - 1.001 - self.hitbox.offsetWithX)][0][block[1]] != "air":
                         self.leftAir = False            # is there an air block to the left of the entity
                     if self.nextX - self.hitbox.offsetWithX <= block[0]:  
                         self.leftBlockBorder = True     # will the entity cross the blockborder of the block to the left in the next iteration
@@ -102,7 +106,7 @@ class EntityClass():
             i = 0
             for block in self.hitbox.rightBlocks():
                 if self.isBlockInWorld(block[0] - 1, block[1]):
-                    if self.__class__.worldMatrix[self.worldLoadDistance][0][block[1]] != "air":
+                    if self.__class__.worldMatrix[trunc(self.worldLoadDistance + self.hitbox.offsetWithX)][0][block[1]] != "air":
                         self.rightAir = False           # is there an air block to the right of the entity
                     if self.nextX + self.hitbox.offsetWithX >= block[0] + 1:
                         self.rightBlockBorder = True    # will the entity cross the blockborder of the block to the right in the next iteration

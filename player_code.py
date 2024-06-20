@@ -6,13 +6,13 @@ import pygame
 class PlayerClass(EntityClass):
     def __init__(self):
         super().__init__()
-        self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float(49), float(4)
+        self.hitbox = Hitboxes(3, 2)
+        self.x, self.y = float(59), float(4)
         self.count = 0
         
 
-    def updatesPhysics(self, events, calibrationFPS):
-        super().updatesPhysics(calibrationFPS)
+    def updatesPhysics(self, events, calibrationFPS, dis):
+        super().updatesPhysics(calibrationFPS, dis)
         self.accelerationY = 0
         if abs(self.velocityY) < 0.003:
             self.velocityY = 0

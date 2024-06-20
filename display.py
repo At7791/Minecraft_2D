@@ -57,7 +57,8 @@ class Display():
                 if chunk[0][blockY] != "air":
                     self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
                     # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y + 1), (self.zoom, self.zoom)))
-        
+                pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX, blockY + 1))
+                pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX + 1, blockY))
 
         # debug displayed onjects
         pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(self.player.hitbox.leftBorder, self.player.hitbox.highBorder), (self.zoom * self.player.hitbox.lengthX, self.zoom * self.player.hitbox.lengthY)), 10)
