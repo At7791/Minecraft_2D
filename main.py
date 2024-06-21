@@ -9,23 +9,25 @@ from player_code import PlayerClass
 from event_controler import Events 
 from world_loader import world_loader
 import time
+from xyCoordinateConverter import Converter
 
 blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block": ["grass_block_side"], "bedrock": ["bedrock"]}
 
 sizeX, sizeY = 3, 7
 worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
-worldLoadDistance = 15
+worldLoadDistance = 7
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 
 
 running = True
+
 
 clock = pygame.time.Clock()
 player = PlayerClass()
 dis = Display("Faithful64x", blocksID, player)
 events = Events()
 EntityClass.worldMatrix = worldMatrix
-
+convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
 
 TPS = 20
 FPS = 60
@@ -65,6 +67,7 @@ while running:
     # Event Tick Loop (20 times per second)
     while accumulatorTicks >= durationTick:
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
+        convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
         events.eventsMain()
         accumulatorTicks -= durationTick
         numberOfTicks += 1
@@ -75,7 +78,7 @@ while running:
 
         EntityClass.worldMatrix = worldMatrix
         EntityClass.worldLoadDistance = worldLoadDistance
-        player.updatesPhysics(events, deltaTime * TPS, dis)
+        player.updatesPhysics(events, deltaTime * TPS, convert, dis)
         pygame.display.update()
         dis.displayMain(worldMatrix)
         dis.displayOverlay(events)

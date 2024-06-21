@@ -19,7 +19,7 @@ class Display():
         self.windowSizeY = Tk().winfo_screenheight() - 200
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
-        self.font = pygame.font.SysFont("Minecraft Regular", 50)
+        self.font = pygame.font.SysFont("Minecraft Regular", 30)
         self.player = player
         self.renderDistanceX = 8
         self.renderDistanceY = 8
