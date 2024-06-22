@@ -79,7 +79,7 @@ while running:
         EntityClass.worldMatrix = worldMatrix
         EntityClass.worldLoadDistance = worldLoadDistance
         player.updatesPhysics(events, deltaTime * TPS, convert, dis)
-        pygame.display.update()
+        pygame.display.update() 
         dis.displayMain(worldMatrix)
         dis.displayOverlay(events)
 
