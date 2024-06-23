@@ -17,14 +17,15 @@ sizeX, sizeY = 3, 7
 worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
 worldLoadDistance = 7
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
-
+zoom = 90
 
 running = True
 
-
-clock = pygame.time.Clock()
+entities = {"player": []}
 player = PlayerClass()
-dis = Display("Faithful64x", blocksID, player)
+entities["player"].append(player)
+clock = pygame.time.Clock()
+dis = Display("Faithful64x", blocksID, entities, zoom)
 events = Events()
 EntityClass.worldMatrix = worldMatrix
 convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
@@ -79,9 +80,9 @@ while running:
         EntityClass.worldMatrix = worldMatrix
         EntityClass.worldLoadDistance = worldLoadDistance
         player.updatesPhysics(events, deltaTime * TPS, convert, dis)
-        pygame.display.update() 
-        dis.displayMain(worldMatrix)
+        dis.displayMain(worldMatrix, entities)
         dis.displayOverlay(events)
+        pygame.display.update()
 
         accumulatorFrames -= durationFrame
         numberOfFrames += 1
@@ -96,4 +97,4 @@ while running:
     time.sleep(0.001)
 
     
-quit()
+quit() 

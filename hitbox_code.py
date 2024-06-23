@@ -13,6 +13,8 @@ class Hitboxes():
         self.blocksOverlapped = []
 
     def update(self, x, y):
+        self.x = x
+        self.y = y
         self.highBorder = y + self.lengthY
         self.lowBorder = y
         self.leftBorder = x - self.offsetWithX

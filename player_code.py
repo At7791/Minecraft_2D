@@ -5,11 +5,11 @@ import pygame
 
 class PlayerClass(EntityClass):
     def __init__(self):
-        super().__init__()
+        self.type = "player"
+        super().__init__(self.type)
         self.hitbox = Hitboxes(0.6, 1.8)
         self.x, self.y = float(50), float(4.5)
         self.count = 0
-        
 
     def updatesPhysics(self, events, calibrationFPS, convert, dis):
         super().updatesPhysics(calibrationFPS, convert, dis)
@@ -27,7 +27,7 @@ class PlayerClass(EntityClass):
         if events.shiftKeyPressed == True:
             self.accelerationX *= 0.05
         elif events.sprintKeyPressed == True:
-            self.accelerationX *= 1.3 * 5
+            self.accelerationX *= 1.3
         if events.jumpKeyPressed == True and self.onGround == True:
             self.velocityY = 0.7
 

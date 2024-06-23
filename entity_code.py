@@ -11,7 +11,8 @@ class EntityClass():
     gravity = - 0.08        # Class Variable, every entity has the same gravity
     worldLoadDistance = 0   # Class Variable, world load distance
 
-    def __init__(self):
+    def __init__(self, type):
+        self.type = type
         self.x, self.y = float(0), float(0)
         self.nextX, self.nextY = self.x, self.y
         self.velocityX, self.velocityY = float(0), float(-0.0000001)
@@ -22,7 +23,8 @@ class EntityClass():
         self.yOnScreen = 0
         self.hitbox = None
         self.onGround = False
-        
+        self.facingPositive = True
+
     def isBlockInWorld(self, x = int, y = int): # Returns a boolean which is true or false if the given corrdinate is inside the worldmatrix or not
         if x >= 0 and y >= 0:
             if x in range(self.__class__.worldMatrix[0][1], self.__class__.worldMatrix[-1][1] + 1) and y in range(len(self.__class__.worldMatrix[0][0]) + 1):
@@ -30,6 +32,9 @@ class EntityClass():
             else:
                 return False
         return False
+    
+    # def draw(self):
+        
 
     def updatesPhysics(self, calibrationFPS, convert, dis):   # movement and collision related entity updates
         self.hitbox.update(self.x, self.y)
@@ -63,8 +68,6 @@ class EntityClass():
         if self.nextVelocityY >= 0: # if the entity is going up
             i = 0
             for block in self.hitbox.highBlocks():
-                pygame.draw.rect(dis.Screen, Color("red"), (dis.XYonScreen(block[0], block[1] + 1), (dis.zoom, dis.zoom)))
-                dis.Screen.blit(dis.font.render(f"{block[0]}; {block[1]}", False, "black"), (dis.XYonScreen(block[0], block[1] + 1)))
                 if self.isBlockInWorld(block[0] + 1, block[1] + 1):
                     if self.__class__.worldMatrix[trunc(convert.XWMGToLoadedWM(block[0] - 1))][0][block[1]] != "air":
                         self.highAir = False        # is there an air block above the entity
@@ -116,6 +119,11 @@ class EntityClass():
         if self.rightAir and self.leftAir:
             self.x = self.nextX
             self.velocityX = self.nextVelocityX
+            if self.velocityX < 0:
+                self.facingPositive = False
+            else:
+                self.facingPositive = True
+
         else:
             if self.rightBlockBorder:
                 self.velocityX = 0
@@ -126,3 +134,7 @@ class EntityClass():
             else:
                 self.x = self.nextX
                 self.velocityX = self.nextVelocityX
+                if self.velocityX < 0:
+                    self.facingPositive = False
+                else:
+                    self.facingPositive = True
