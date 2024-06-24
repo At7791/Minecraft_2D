@@ -15,7 +15,7 @@ blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block":
 
 sizeX, sizeY = 3, 7
 worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
-worldLoadDistance = 7
+worldLoadDistance = 15
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 zoom = 90
 
@@ -35,6 +35,9 @@ FPS = 60
 
 durationTick = 1 / TPS
 durationFrame = 1 / FPS
+
+ticks = 0
+
 currentTime = time.time()
 previousTickTime = currentTime
 previousFrameTime = currentTime
@@ -70,10 +73,17 @@ while running:
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
         convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
         events.eventsMain()
+
+        # Executes code on every entity in the loaded world
+        for entityType in entities.keys():
+            for entity in entities[entityType]:
+                entity.updateCycle()
+
         accumulatorTicks -= durationTick
         numberOfTicks += 1
+        ticks += 1
 
-    # Frames and Physics Loop (as many times per second as there are Frames per second
+    # Frames and Physics Loop (as many times per second as there are Frames per second)
     while accumulatorFrames >= durationFrame:
         deltaTime = accumulatorFrames
 

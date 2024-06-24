@@ -24,6 +24,7 @@ class EntityClass():
         self.hitbox = None
         self.onGround = False
         self.facingPositive = True
+        self.cycle = 0
 
     def isBlockInWorld(self, x = int, y = int): # Returns a boolean which is true or false if the given corrdinate is inside the worldmatrix or not
         if x >= 0 and y >= 0:
@@ -33,13 +34,21 @@ class EntityClass():
                 return False
         return False
     
-    # def draw(self):
-        
+    def updateCycle(self):
+        if self.velocityX != 0:
+            if self.cycle == 20:
+                self.cycle = 0
+            else:
+                self.cycle += 1
+        else:
+            self.cycle = 0
 
     def updatesPhysics(self, calibrationFPS, convert, dis):   # movement and collision related entity updates
         self.hitbox.update(self.x, self.y)
 
         self.nextVelocityX = (self.velocityX * 0.546 + self.accelerationX)
+        if -0.0003 < self.nextVelocityX < 0.0003:
+            self.nextVelocityX = 0
 
         self.nextVelocityY = (self.velocityY - (0.08 * calibrationFPS)) * pow(0.98, calibrationFPS)
         # print(round(deltaTime * TPS, 2), deltaTime * TPS)
@@ -121,7 +130,7 @@ class EntityClass():
             self.velocityX = self.nextVelocityX
             if self.velocityX < 0:
                 self.facingPositive = False
-            else:
+            elif self.velocityX > 0:
                 self.facingPositive = True
 
         else:
@@ -136,5 +145,5 @@ class EntityClass():
                 self.velocityX = self.nextVelocityX
                 if self.velocityX < 0:
                     self.facingPositive = False
-                else:
+                elif self.velocityX > 0:
                     self.facingPositive = True

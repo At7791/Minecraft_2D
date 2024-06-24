@@ -10,6 +10,23 @@ class PlayerClass(EntityClass):
         self.hitbox = Hitboxes(0.6, 1.8)
         self.x, self.y = float(50), float(4.5)
         self.count = 0
+        self.isSprinting = False
+        self.isCrouching = False
+
+    def updateCycle(self):
+        if self.velocityX != 0:
+            if self.isSprinting == True:
+                if self.cycle >= 20:
+                    self.cycle = 0
+                else:
+                    self.cycle += 2
+            else:
+                if self.cycle >= 20:
+                    self.cycle = 0
+                else:
+                    self.cycle += 1
+        else:
+            self.cycle = 0
 
     def updatesPhysics(self, events, calibrationFPS, convert, dis):
         super().updatesPhysics(calibrationFPS, convert, dis)
@@ -24,10 +41,19 @@ class PlayerClass(EntityClass):
             self.accelerationX = -0.1
         else:
             self.accelerationX = 0
-        if events.shiftKeyPressed == True:
-            self.accelerationX *= 0.05
+        if events.crouchKeyPressed == True:
+            self.accelerationX *= 0.3
+            self.hitbox.update(self.x, self.y)
+            self.isSprinting = False
+            self.isCrouching = True
         elif events.sprintKeyPressed == True:
             self.accelerationX *= 1.3
+            if self.velocityX != 0:
+                self.isSprinting = True
+            self.isCrouching = False
+        else:
+            self.isSprinting = False
+            self.isCrouching = False
         if events.jumpKeyPressed == True and self.onGround == True:
             self.velocityY = 0.7
 

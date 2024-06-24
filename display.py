@@ -17,7 +17,7 @@ class Display():
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
         self.windowSizeX = Tk().winfo_screenwidth()
-        self.windowSizeY = Tk().winfo_screenheight() - 200
+        self.windowSizeY = Tk().winfo_screenheight()
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
         self.font = pygame.font.SysFont("Minecraft Regular", 30)
@@ -32,7 +32,6 @@ class Display():
 
         self.zoom = zoom
         self.blocksID = blocksID
-        self.cycle = 0
         self.spriteNumber = 0
 
         self.blockImages = {}
@@ -75,10 +74,6 @@ class Display():
         return self.XonScreen, self.YonScreen
 
     def displayMain(self, displayedWorld, entities):
-        self.cycle += 1
-        if self.cycle >= 4:
-            self.cycle = 0
-
         self.Screen.fill(Color(self.backgroundColor))
         for chunk in displayedWorld:
             blockX = chunk[1]
@@ -87,26 +82,32 @@ class Display():
                 if chunk[0][blockY] != "air":
                     self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
                     # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y + 1), (self.zoom, self.zoom)))
-                pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX, blockY + 1))
-                pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX + 1, blockY))
+                # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX, blockY + 1))
+                # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX + 1, blockY))
 
         # Display entities !
         for entityType in entities.keys():
             for entity in entities[entityType]:
-                if self.cycle = 0 or self.cycle = 2:
-                    self.spriteNumber = 0
-                elif self.cycle = 1:
-                    self.spriteNumber = 1
-                elif self.cycle = 3:
-                    self.spriteNumber = 2
+                self.spriteNumber = 0
+
+                if entity.velocityX != 0:
+                    if entity.cycle in range(5, 10) or entity.cycle in range(15, 20):
+                        self.spriteNumber = 0
+                    elif entity.cycle in range(0, 5):
+                        self.spriteNumber = 1
+                    elif entity.cycle in range(10, 15):
+                        self.spriteNumber = 2
+                if entityType == "player":
+                    if entity.isCrouching == True:
+                        self.spriteNumber = 3
 
                 if entity.facingPositive:
                     self.displayedSprite = self.entitySprites[entityType][self.spriteNumber][0]
                 else:
                     self.displayedSprite = self.entitySprites[entityType][self.spriteNumber][1]
-                pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(entity.hitbox.leftBorder, entity.hitbox.highBorder), (self.zoom * entity.hitbox.lengthX, self.zoom * entity.hitbox.lengthY)), 10)
+                
                 self.Screen.blit(self.displayedSprite, (self.XYonScreen(entity.hitbox.x - ceil(entity.hitbox.lengthX), entity.hitbox.y + ceil(entity.hitbox.lengthY))))
-
+                # pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(entity.hitbox.leftBorder, entity.hitbox.highBorder), (self.zoom * entity.hitbox.lengthX, self.zoom * entity.hitbox.lengthY)), 10)
         # debug displayed onjects
         pygame.draw.circle(self.Screen, Color("pink"), (self.XYonScreen(0, 2)), 10)
 
@@ -119,6 +120,6 @@ class Display():
             self.F3DebugScreenActive = not self.F3DebugScreenActive
         
         if self.F3DebugScreenActive:
-            displayedString = f"X: {float(self.player.x):9.3f}    Y: {float(self.player.y):9.3f}    Facing positive: {self.player.facingPositive}"
+            displayedString = f"X: {float(self.player.x):9.3f}    Y: {float(self.player.y):9.3f}    Facing positive: {self.player.facingPositive}, isSprinting: {self.player.isSprinting}"
             textColor = "#000000"
             self.Screen.blit(self.font.render(displayedString, False, textColor), (10, 10))

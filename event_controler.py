@@ -7,9 +7,10 @@ class Events():
         self.backwardKeyPressed = False
         self.forwardKeyPressed = False
         self.sprintKeyPressed = False
-        self.shiftKeyPressed = False
+        self.crouchKeyPressed = False
         self.jumpKeyPressed = False
         self.f3KeyPressed = False
+        self.clicking = False
 
         # debug variables
         self.debugTrigger1 = False
@@ -43,7 +44,9 @@ class Events():
                 if event.key == K_F3:
                     self.f3KeyPressed = True
                 if event.key == K_LSHIFT or event.key == K_RSHIFT:
-                    self.shiftKeyPressed = True
+                    self.crouchKeyPressed = True
+                if event.key == MOUSEBUTTONDOWN:
+                    self.click = True
 
 
                 # debug keys
@@ -62,7 +65,9 @@ class Events():
                 if event.key == K_SPACE:
                     self.jumpKeyPressed = False
                 if event.key == K_LSHIFT or event.key == K_RSHIFT:
-                    self.shiftKeyPressed = False
+                    self.crouchKeyPressed = False
                 # debug keys
                 if event.key == K_u:
                     self.debugTrigger1 = False
+                if event.key == MOUSEBUTTONUP:
+                    self.clicking = False
