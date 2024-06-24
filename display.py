@@ -32,6 +32,8 @@ class Display():
 
         self.zoom = zoom
         self.blocksID = blocksID
+        self.cycle = 0
+        self.spriteNumber = 0
 
         self.blockImages = {}
         for i in self.blocksID.keys():
@@ -48,6 +50,7 @@ class Display():
             number_files = len(lst)
             self.sprites = []
             for j in range(number_files):
+                intermediateArray = []
                 for k in range(2):
                     if k == 0: 
                         self.sprite = pygame.image.load(f"{self.spritePath}/0{j + 1}.png").convert_alpha()
@@ -56,7 +59,8 @@ class Display():
                         self.sprite = pygame.image.load(f"{self.spritePath}/0{j + 1}.png").convert_alpha()
                         self.sprite = pygame.transform.scale(self.sprite, (self.zoom * 2, self.zoom * 2))
                         self.sprite = pygame.transform.flip(self.sprite, True, False)
-                    self.sprites.append(self.sprite)
+                    intermediateArray.append(self.sprite)
+                self.sprites.append(intermediateArray)
             self.entitySprites[i] = self.sprites
         print(self.entitySprites)
     
@@ -71,6 +75,10 @@ class Display():
         return self.XonScreen, self.YonScreen
 
     def displayMain(self, displayedWorld, entities):
+        self.cycle += 1
+        if self.cycle >= 4:
+            self.cycle = 0
+
         self.Screen.fill(Color(self.backgroundColor))
         for chunk in displayedWorld:
             blockX = chunk[1]
@@ -85,11 +93,17 @@ class Display():
         # Display entities !
         for entityType in entities.keys():
             for entity in entities[entityType]:
-                if entity.facingPositive:
-                    self.displayedSprite = self.entitySprites[entityType][0]
+                if self.cycle = 0 or self.cycle = 2:
+                    self.spriteNumber = 0
+                elif self.cycle = 1:
+                    self.spriteNumber = 1
+                elif self.cycle = 3:
+                    self.spriteNumber = 2
 
+                if entity.facingPositive:
+                    self.displayedSprite = self.entitySprites[entityType][self.spriteNumber][0]
                 else:
-                    self.displayedSprite = self.entitySprites[entityType][1]
+                    self.displayedSprite = self.entitySprites[entityType][self.spriteNumber][1]
                 pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(entity.hitbox.leftBorder, entity.hitbox.highBorder), (self.zoom * entity.hitbox.lengthX, self.zoom * entity.hitbox.lengthY)), 10)
                 self.Screen.blit(self.displayedSprite, (self.XYonScreen(entity.hitbox.x - ceil(entity.hitbox.lengthX), entity.hitbox.y + ceil(entity.hitbox.lengthY))))
 
