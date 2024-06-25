@@ -8,11 +8,12 @@ class PlayerClass(EntityClass):
         self.type = "player"
         super().__init__(self.type)
         self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float(50), float(4.5)
+        self.x, self.y = float(30), float(4.5)
         self.count = 0
         self.isSprinting = False
         self.isCrouching = False
 
+    # Updates the variable cycling used to display the player sprites
     def updateCycle(self):
         if self.velocityX != 0:
             if self.isSprinting == True:
@@ -28,19 +29,22 @@ class PlayerClass(EntityClass):
         else:
             self.cycle = 0
 
-    def updatesPhysics(self, events, calibrationFPS, convert, dis):
-        super().updatesPhysics(calibrationFPS, convert, dis)
-        self.accelerationY = 0
-        if abs(self.velocityY) < 0.003:
-            self.velocityY = 0
+    def updatesPhysics(self, events, calibrationFPS, convert):
+        super().updatesPhysics(calibrationFPS, convert)
         self.count += 1
-        # applies the effect to the player movement of the keypresses
+
+        # applies the effect to the player movement of the key presses
         if events.forwardKeyPressed == True:
             self.accelerationX = 0.1
         elif events.backwardKeyPressed == True:
             self.accelerationX = -0.1
         else:
             self.accelerationX = 0
+                
+        if events.jumpKeyPressed == True and self.onGround == True:
+            self.velocityY = 0.53
+
+        # Makes the player sprint, crouch or walk normally
         if events.crouchKeyPressed == True:
             self.accelerationX *= 0.3
             self.hitbox.update(self.x, self.y)
@@ -54,9 +58,10 @@ class PlayerClass(EntityClass):
         else:
             self.isSprinting = False
             self.isCrouching = False
-        if events.jumpKeyPressed == True and self.onGround == True:
-            self.velocityY = 0.7
-
+        
+        # if events.clicking == True:
+        
+        # Debug keys
         if events.debugTrigger1 == True:
             self.y = 10
             self.x = 7.5
@@ -67,12 +72,6 @@ class PlayerClass(EntityClass):
         #     print(self.count, self.velocityY)
         # else:
         #     print(self.velocityY)
-
-    def draw(self, surface, zoom, windowSize):
-        self.windowSizeX, self.windowSizeY = windowSize
-        self.xOnScreen = self.windowSizeX // 2
-        self.yOnScreen = self.windowSizeY // 2
-        pygame.draw.circle(surface, Color("red"), (self.xOnScreen, self.yOnScreen), 10)
 
     def getPlayerCoordinates(self):
         return (self.x, self.y)

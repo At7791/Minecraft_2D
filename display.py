@@ -20,10 +20,10 @@ class Display():
         self.windowSizeY = Tk().winfo_screenheight()
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
-        self.font = pygame.font.SysFont("Minecraft Regular", 30)
+        self.font = pygame.font.SysFont("Minecraft Regular", 26)
         
         self.entities = entities
-        self.player = entities["player"][0]
+        self.player = self.entities["player"][0]
 
         self.renderDistanceX = 8
         self.renderDistanceY = 8
@@ -34,6 +34,7 @@ class Display():
         self.blocksID = blocksID
         self.spriteNumber = 0
 
+        # generages the dictionary containing every block texture corresponding to the block ID
         self.blockImages = {}
         for i in self.blocksID.keys():
             if i != "air":
@@ -41,15 +42,17 @@ class Display():
                 self.image = pygame.image.load(self.path).convert_alpha()
                 self.image = pygame.transform.scale(self.image, (self.zoom + 1, self.zoom + 1))
                 self.blockImages[i] = self.image
-
+        
+        # generates the dictionary containing every sprite corresponding to the entity type
         self.entitySprites = {}
         for i in self.entities.keys():
             self.spritePath = f"entity_sprites/{i}"
-            lst = os.listdir(self.spritePath) # your directory path
-            number_files = len(lst)
+            lst = os.listdir(self.spritePath)
+            number_files = len(lst)     # how many files are there in the directory
             self.sprites = []
             for j in range(number_files):
                 intermediateArray = []
+                # generates a mirrored sprite in addition to the normal sprite
                 for k in range(2):
                     if k == 0: 
                         self.sprite = pygame.image.load(f"{self.spritePath}/0{j + 1}.png").convert_alpha()
@@ -61,27 +64,44 @@ class Display():
                     intermediateArray.append(self.sprite)
                 self.sprites.append(intermediateArray)
             self.entitySprites[i] = self.sprites
-        print(self.entitySprites)
+        
+        # generates the list containing every block break animation image
+        self.breakFrames = []
+        for i in range(10):
+            self.path = f"{self.texturePackFileName}/assets/minecraft/textures/block/destroy_stage_{i}.png"
+            self.image = pygame.image.load(self.path).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (self.zoom + 1, self.zoom + 1))
+            self.breakFrames.append(self.image)
     
+    # generates the file path with the block ID
     def getFilePathFromDictionary(self, IDofCurrentBlock):
         self.path = f'{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(IDofCurrentBlock)[0]}.png'
         return self.path 
-
+    
+    # Converts the minecraft coordinates into coordinates on Screen
     def XYonScreen(self, x, y):
         self.XonScreen = - self.player.getPlayerCoordinates()[0] * self.zoom + self.windowSizeX // 2 + self.zoom * x
-        # self.YonScreen = self.player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * y
         self.YonScreen = self.player.getPlayerCoordinates()[1] * self.zoom + self.windowSizeY // 2 - self.zoom * (y - 1.6)
         return self.XonScreen, self.YonScreen
+    
+    # Converts the coordinates on screen into coordinates in Minecraft
+    def XYinWorld(self, x, y):
+        self.XinWorld = x / self.zoom + self.player.getPlayerCoordinates()[0] - self.windowSizeX / 2 / self.zoom
+        self.YinWorld = - y / self.zoom + self.player.getPlayerCoordinates()[1] + self.windowSizeY / 2 / self.zoom + 1.6
+        return self.XinWorld, self.YinWorld
+
 
     def displayMain(self, displayedWorld, entities):
+        # Display background !
         self.Screen.fill(Color(self.backgroundColor))
+
+        # Display Blocks !
         for chunk in displayedWorld:
             blockX = chunk[1]
-            # if x > round(self.player.x - self.renderDistance)  and x < round(self.player.x + self.renderDistance):
             for blockY in range(len(chunk[0])):
                 if chunk[0][blockY] != "air":
                     self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
-                    # pygame.draw.rect(self.Screen, Color(randint(1,255), randint(1,255), randint(1,255)), (self.XYonScreen(x, y + 1), (self.zoom, self.zoom)))
+                # Uncomment to see black outlines around blockborders
                 # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX, blockY + 1))
                 # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX + 1, blockY))
 
@@ -106,20 +126,31 @@ class Display():
                 else:
                     self.displayedSprite = self.entitySprites[entityType][self.spriteNumber][1]
                 
-                self.Screen.blit(self.displayedSprite, (self.XYonScreen(entity.hitbox.x - ceil(entity.hitbox.lengthX), entity.hitbox.y + ceil(entity.hitbox.lengthY))))
+                self.Screen.blit(self.displayedSprite, (self.XYonScreen(entity.hitbox.x - ceil(entity.hitbox.lengthX), entity.hitbox.y + ceil(entity.hitbox.lengthY) - 0.0001)))
                 # pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(entity.hitbox.leftBorder, entity.hitbox.highBorder), (self.zoom * entity.hitbox.lengthX, self.zoom * entity.hitbox.lengthY)), 10)
+        
+        # Display Block breaking animation !
+        
         # debug displayed onjects
-        pygame.draw.circle(self.Screen, Color("pink"), (self.XYonScreen(0, 2)), 10)
+        pygame.draw.circle(self.Screen, Color("pink"), (self.XYonScreen(5, 5)), 10)
 
-        # pygame.draw.circle(self.Screen, Color("yellow"), (self.XYonScreen(self.player.x, self.player.y)), self.zoom // 6)
-        # pygame.draw.circle(self.Screen, Color("red"), (self.windowSizeX // 2, self.windowSizeY // 2), 5)
     
-    def displayOverlay(self, events):
+    def displayOverlay(self, events, measuredFPS, measuredTPS, waitLoops):
         # Minecraft F3 Debug Screen
         if events.f3KeyPressed:
             self.F3DebugScreenActive = not self.F3DebugScreenActive
         
-        if self.F3DebugScreenActive:
-            displayedString = f"X: {float(self.player.x):9.3f}    Y: {float(self.player.y):9.3f}    Facing positive: {self.player.facingPositive}, isSprinting: {self.player.isSprinting}"
+        
+        if self.F3DebugScreenActive:    
+            if events.clicking:
+                pygame.draw.circle(self.Screen, Color("pink"), (events.mouseX, events.mouseY), 10)
+            
             textColor = "#000000"
-            self.Screen.blit(self.font.render(displayedString, False, textColor), (10, 10))
+
+            displayedStringLine1 = f"Facing positive: {self.player.facingPositive}     X: {float(self.player.x):9.3f}    Y: {float(self.player.y):9.3f}"
+            displayedStringLine2 = f"Mouse: X: {float(self.XYinWorld(events.mouseX, events.mouseY)[0]):9.3f},  Y: {float(self.XYinWorld(events.mouseX, events.mouseY)[1]):9.3f}"
+            displayedStringLine3 = f"FPS: {measuredFPS}    TPS: {measuredTPS}    Wait Loop: {waitLoops}"
+
+            self.Screen.blit(self.font.render(displayedStringLine1, False, textColor), (10, 10))
+            self.Screen.blit(self.font.render(displayedStringLine2, False, textColor), (10, 40))
+            self.Screen.blit(self.font.render(displayedStringLine3, False, textColor), (10, 70))

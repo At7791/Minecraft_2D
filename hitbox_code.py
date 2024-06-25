@@ -12,6 +12,7 @@ class Hitboxes():
 
         self.blocksOverlapped = []
 
+    # Updates the state and position of the hitbox relative to the entity
     def update(self, x, y):
         self.x = x
         self.y = y
@@ -20,32 +21,32 @@ class Hitboxes():
         self.leftBorder = x - self.offsetWithX
         self.rightBorder = x + self.offsetWithX
 
-        self.thighBorder = trunc(self.highBorder)
-        self.tlowBorder = trunc(self.lowBorder)
-        self.tleftBorder = trunc(self.leftBorder)
-        self.trightBorder = trunc(self.rightBorder)
-
+        # generates a list of blocks with which the hitbox overlapps
         self.blocksOverlapped = []
-        for i in range(self.tleftBorder, self.trightBorder + 1):
+        for i in range(trunc(self.leftBorder), trunc(self.rightBorder) + 1):
             intermediateArray = []
-            for j in range(self.tlowBorder, self.thighBorder + 1):
+            for j in range(trunc(self.lowBorder), trunc(self.highBorder) + 1):
                 intermediateArray.append((i, j))
             self.blocksOverlapped.append(intermediateArray)
 
+    # Returns list of blocks containing the bottom border of the hitbox
     def lowBlocks(self):
         blocks = []
         for columns in self.blocksOverlapped:
             blocks.append(columns[0])
         return blocks
-    
+
+    # Returns list of blocks containing the high border of the hitbox
     def highBlocks(self):
         blocks = []
         for columns in self.blocksOverlapped:
             blocks.append(columns[len(self.blocksOverlapped[0]) - 1])
         return blocks
     
+    # Returns list of blocks containing the left border of the hitbox
     def leftBlocks(self):
         return self.blocksOverlapped[0]
     
+    # Returns list of blocks containing the right border of the hitbox
     def rightBlocks(self):
         return self.blocksOverlapped[len(self.blocksOverlapped) - 1]

@@ -12,6 +12,9 @@ class Events():
         self.f3KeyPressed = False
         self.clicking = False
 
+        self.mouseX = 0
+        self.mouseY = 0
+
         # debug variables
         self.debugTrigger1 = False
 
@@ -25,6 +28,12 @@ class Events():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            # Mouse related events
+            self.mouseX, self.mouseY = pygame.mouse.get_pos()
+            if event.type == MOUSEBUTTONDOWN:
+                self.clicking = True
+            elif event.type == MOUSEBUTTONUP:
+                self.clicking = False
             # Keys pressed
             if event.type == KEYDOWN:
                 # Exit program through pressing tab
@@ -32,21 +41,19 @@ class Events():
                     pygame.quit()
                     sys.exit()
 
-                # Player event related keys / mouse
+                # Player event related keys
                 if event.key == K_d:
                     self.forwardKeyPressed = True
-                if event.key == K_q:
+                elif event.key == K_a:
                     self.backwardKeyPressed = True
-                if event.key == K_LCTRL:
+                elif event.key == K_LCTRL:
                     self.sprintKeyPressed = True
-                if event.key == K_SPACE:
+                elif event.key == K_SPACE:
                     self.jumpKeyPressed = True
-                if event.key == K_F3:
+                elif event.key == K_F3:
                     self.f3KeyPressed = True
-                if event.key == K_LSHIFT or event.key == K_RSHIFT:
+                elif event.key == K_LSHIFT or event.key == K_RSHIFT:
                     self.crouchKeyPressed = True
-                if event.key == MOUSEBUTTONDOWN:
-                    self.click = True
 
 
                 # debug keys
@@ -58,16 +65,14 @@ class Events():
                 # Player movement related keys
                 if event.key == K_d:
                     self.forwardKeyPressed = False
-                if event.key == K_q:
+                elif event.key == K_a:
                     self.backwardKeyPressed = False
-                if event.key == K_LCTRL:
+                elif event.key == K_LCTRL:
                     self.sprintKeyPressed = False
-                if event.key == K_SPACE:
+                elif event.key == K_SPACE:
                     self.jumpKeyPressed = False
-                if event.key == K_LSHIFT or event.key == K_RSHIFT:
+                elif event.key == K_LSHIFT or event.key == K_RSHIFT:
                     self.crouchKeyPressed = False
                 # debug keys
-                if event.key == K_u:
+                elif event.key == K_u:
                     self.debugTrigger1 = False
-                if event.key == MOUSEBUTTONUP:
-                    self.clicking = False

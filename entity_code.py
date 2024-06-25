@@ -34,7 +34,7 @@ class EntityClass():
                 return False
         return False
     
-    def updateCycle(self):
+    def updateCycle(self): # Updates the variable cycling used to display the entity sprites
         if self.velocityX != 0:
             if self.cycle == 20:
                 self.cycle = 0
@@ -43,22 +43,26 @@ class EntityClass():
         else:
             self.cycle = 0
 
-    def updatesPhysics(self, calibrationFPS, convert, dis):   # movement and collision related entity updates
+    def updatesPhysics(self, calibrationFPS, convert):   # movement and collision related entity updates
         self.hitbox.update(self.x, self.y)
 
+        # Calculates the next velocity that the entity will have on each axis
         self.nextVelocityX = (self.velocityX * 0.546 + self.accelerationX)
         if -0.0003 < self.nextVelocityX < 0.0003:
             self.nextVelocityX = 0
-
+        
+        
         self.nextVelocityY = (self.velocityY - (0.08 * calibrationFPS)) * pow(0.98, calibrationFPS)
-        # print(round(deltaTime * TPS, 2), deltaTime * TPS)
-
+        if abs(self.nextVelocityY) < 0.003:
+            self.nextVelocityY = 0
+        
         # Calculates the next position the entity will be on regardless of the collisions
         self.nextX = self.x + self.nextVelocityX * calibrationFPS
         self.nextY = self.y + self.nextVelocityY * calibrationFPS
 
         
-        # resets the booleans before tests
+        # Tests for collisions in the path of the entity
+        # The Y axis
         self.lowAir = True
         self.highAir = True
         self.lowBlockBorder = False
@@ -83,6 +87,7 @@ class EntityClass():
                     if self.nextY <= block[1]:  
                         self.highBlockBorder = True # will the entity cross the blockborder of the block above in the next iteration
                 i += 1
+        
         # applies or not the effect of a collision of the entity with a block on the Y axis
         if self.lowAir and self.highAir:
             self.y = self.nextY
@@ -99,7 +104,8 @@ class EntityClass():
                 self.y = self.nextY
                 self.velocityY = self.nextVelocityY
 
-        # resets the booleans before tests
+
+        # The X axis
         self.rightAir = True
         self.leftAir = True
         self.leftBlockBorder = False
@@ -128,11 +134,10 @@ class EntityClass():
         if self.rightAir and self.leftAir:
             self.x = self.nextX
             self.velocityX = self.nextVelocityX
-            if self.velocityX < 0:
+            if self.velocityX < 0: # Defines the way that the entity faces
                 self.facingPositive = False
             elif self.velocityX > 0:
                 self.facingPositive = True
-
         else:
             if self.rightBlockBorder:
                 self.velocityX = 0
@@ -143,7 +148,7 @@ class EntityClass():
             else:
                 self.x = self.nextX
                 self.velocityX = self.nextVelocityX
-                if self.velocityX < 0:
+                if self.velocityX < 0: # Defines the way that the entity faces
                     self.facingPositive = False
                 elif self.velocityX > 0:
                     self.facingPositive = True
