@@ -2,6 +2,7 @@ from entity_code import EntityClass
 from hitbox_code import Hitboxes
 from pygame import *
 import pygame
+from math import trunc
 
 class PlayerClass(EntityClass):
     def __init__(self):
@@ -12,6 +13,8 @@ class PlayerClass(EntityClass):
         self.count = 0
         self.isSprinting = False
         self.isCrouching = False
+        self.XYblockBreaking = False
+        self.blockDestroy = False
 
     # Updates the variable cycling used to display the player sprites
     def updateCycle(self):
@@ -32,6 +35,7 @@ class PlayerClass(EntityClass):
     def updatesPhysics(self, events, calibrationFPS, convert):
         super().updatesPhysics(calibrationFPS, convert)
         self.count += 1
+
 
         # applies the effect to the player movement of the key presses
         if events.forwardKeyPressed == True:
@@ -59,8 +63,13 @@ class PlayerClass(EntityClass):
             self.isSprinting = False
             self.isCrouching = False
         
-        # if events.clicking == True:
-        
+        self.blockDestroy = False
+        if events.clickingLeft == True:
+            self.XYblockBreaking = (events.mouseX, events.mouseY)
+        else:
+            self.XYblockBreaking = None
+            self.blockDestroy
+
         # Debug keys
         if events.debugTrigger1 == True:
             self.y = 10

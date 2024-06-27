@@ -83,6 +83,8 @@ while running:
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
         convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
         events.eventsMain()
+        
+
 
         # Executes code on every entity in the loaded world
         for entityType in entities.keys():
@@ -101,9 +103,16 @@ while running:
     while accumulatorFrames >= durationFrame:
         deltaTime = accumulatorFrames
 
+        # Player and Entity Class updates
         EntityClass.worldMatrix = worldMatrix
         EntityClass.worldLoadDistance = worldLoadDistance
         player.updatesPhysics(events, deltaTime * TPS, convert)
+        if player.XYblockBreaking != None:
+            player.XYblockBreaking = dis.XYinWorld(player.XYblockBreaking[0], player.XYblockBreaking[1], True)
+        if player.blockDestroy == True:
+            print(worldMatrix)
+            worldMatrix[player.XYblockBreaking[0]][player.XYblockBreaking[1]] = "air"
+        # Display Updates
         dis.displayMain(worldMatrix, entities)
         dis.displayOverlay(events, measuredFPS, measuredTPS, waitLoops)
         pygame.display.update()

@@ -8,7 +8,7 @@ import pygame.surface
 import pygame.transform
 import entity_code
 from random import randint
-from math import ceil
+from math import ceil, trunc
 import os
 
 class Display():
@@ -17,7 +17,7 @@ class Display():
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
         self.windowSizeX = Tk().winfo_screenwidth()
-        self.windowSizeY = Tk().winfo_screenheight()
+        self.windowSizeY = Tk().winfo_screenheight() - 300
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
         self.font = pygame.font.SysFont("Minecraft Regular", 26)
@@ -85,11 +85,12 @@ class Display():
         return self.XonScreen, self.YonScreen
     
     # Converts the coordinates on screen into coordinates in Minecraft
-    def XYinWorld(self, x, y):
+    def XYinWorld(self, x, y, resultTruncated):
         self.XinWorld = x / self.zoom + self.player.getPlayerCoordinates()[0] - self.windowSizeX / 2 / self.zoom
         self.YinWorld = - y / self.zoom + self.player.getPlayerCoordinates()[1] + self.windowSizeY / 2 / self.zoom + 1.6
+        if resultTruncated == True:
+            self.XinWorld, self.YinWorld = trunc(self.XinWorld), trunc(self.YinWorld)
         return self.XinWorld, self.YinWorld
-
 
     def displayMain(self, displayedWorld, entities):
         # Display background !
@@ -101,6 +102,10 @@ class Display():
             for blockY in range(len(chunk[0])):
                 if chunk[0][blockY] != "air":
                     self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
+
+                    if self.player.XYblockBreaking != None:
+                        if self.player.XYblockBreaking == (blockX, blockY):
+                            self.Screen.blit(self.breakFrames[9], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
                 # Uncomment to see black outlines around blockborders
                 # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX, blockY + 1))
                 # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX + 1, blockY))
@@ -129,8 +134,6 @@ class Display():
                 self.Screen.blit(self.displayedSprite, (self.XYonScreen(entity.hitbox.x - ceil(entity.hitbox.lengthX), entity.hitbox.y + ceil(entity.hitbox.lengthY) - 0.0001)))
                 # pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(entity.hitbox.leftBorder, entity.hitbox.highBorder), (self.zoom * entity.hitbox.lengthX, self.zoom * entity.hitbox.lengthY)), 10)
         
-        # Display Block breaking animation !
-        
         # debug displayed onjects
         pygame.draw.circle(self.Screen, Color("pink"), (self.XYonScreen(5, 5)), 10)
 
@@ -142,13 +145,13 @@ class Display():
         
         
         if self.F3DebugScreenActive:    
-            if events.clicking:
+            if events.clickingLeft:
                 pygame.draw.circle(self.Screen, Color("pink"), (events.mouseX, events.mouseY), 10)
             
             textColor = "#000000"
 
             displayedStringLine1 = f"Facing positive: {self.player.facingPositive}     X: {float(self.player.x):9.3f}    Y: {float(self.player.y):9.3f}"
-            displayedStringLine2 = f"Mouse: X: {float(self.XYinWorld(events.mouseX, events.mouseY)[0]):9.3f},  Y: {float(self.XYinWorld(events.mouseX, events.mouseY)[1]):9.3f}"
+            displayedStringLine2 = f"Mouse: X: {float(self.XYinWorld(events.mouseX, events.mouseY, False)[0]):9.3f},  Y: {float(self.XYinWorld(events.mouseX, events.mouseY, False)[1]):9.3f}"
             displayedStringLine3 = f"FPS: {measuredFPS}    TPS: {measuredTPS}    Wait Loop: {waitLoops}"
 
             self.Screen.blit(self.font.render(displayedStringLine1, False, textColor), (10, 10))

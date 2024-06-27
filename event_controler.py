@@ -10,7 +10,7 @@ class Events():
         self.crouchKeyPressed = False
         self.jumpKeyPressed = False
         self.f3KeyPressed = False
-        self.clicking = False
+        self.clickingLeft = False
 
         self.mouseX = 0
         self.mouseY = 0
@@ -31,9 +31,11 @@ class Events():
             # Mouse related events
             self.mouseX, self.mouseY = pygame.mouse.get_pos()
             if event.type == MOUSEBUTTONDOWN:
-                self.clicking = True
+                if event.button == 1:
+                    self.clickingLeft = True
             elif event.type == MOUSEBUTTONUP:
-                self.clicking = False
+                if event.button == 1:
+                    self.clickingLeft = False
             # Keys pressed
             if event.type == KEYDOWN:
                 # Exit program through pressing tab
