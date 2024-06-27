@@ -1,3 +1,5 @@
+from main import worldLoadDistance, sizeX
+
 def world_loader(worldMatrixGLOBAL, worldLoadDistance, refferenceX):
     worldMatrix = []
     refferenceX = int(refferenceX)
@@ -9,11 +11,10 @@ def world_loader(worldMatrixGLOBAL, worldLoadDistance, refferenceX):
 
 
 
-def render_distance(self.y, worldLoadDistance, worldSizeY):
-    global condition_met
-    while time.time == 
+def check_render_distance(playerX, worldLoadDistance, sizeX):
+    if playerX + worldLoadDistance <= sizeX:
+        return False
+    else:
+        return True
     
-        if self.y + worldLoadDistance <= worldSizeY:
-            dd
-        
-        time.sleep(0.01)  # Adjust the sleep time as needed to balance CPU usage
+

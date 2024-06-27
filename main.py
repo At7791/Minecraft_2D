@@ -8,6 +8,7 @@ from entity_code import EntityClass
 from player_code import PlayerClass
 from event_controler import Events 
 from world_loader import world_loader
+from world_loader import check_render_distance
 import time
 
 blocksID = {"air": ["air"], "stone": ["stone"], "dirt": ["dirt"], "grass_block": ["grass_block_side"], "bedrock": ["bedrock"]}
@@ -68,7 +69,9 @@ while running:
         events.eventsMain()
         accumulatorTicks -= durationTick
         numberOfTicks += 1
-
+        
+        rendering = check_render_distance(player.x, worldLoadDistance, sizeX)
+        
     # Frames and Physics Loop (as many times per second as there are Frames per second)
     while accumulatorFrames >= durationFrame:
         deltaTime = accumulatorFrames
