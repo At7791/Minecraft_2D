@@ -87,6 +87,10 @@ while running:
 
     # Game Tick Loop (20 times per second)
     while accumulatorTicks >= durationTick:
+        rendering = check_render_distance(player.x, worldLoadDistance, sizeX) #checks if playerY + renderdistance are inside the border
+        worldMatrixGLOBAL.append(render_condition(sizeY, rendering))         #if playerY + renderdistance are outside the border, it starts to generate new terrain
+
+        
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
         convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
 
