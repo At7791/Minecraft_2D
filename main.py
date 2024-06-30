@@ -22,7 +22,7 @@ blocksID = json.load(file)
 file.close()
 
 # World setup and generation
-sizeX, sizeY = 3, 7
+sizeX, sizeY = 50, 200
 worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
 worldLoadDistance = 15
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
