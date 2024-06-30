@@ -1,8 +1,9 @@
 import json
 import os
 
-file = open("block_data/blocksIDs.json", "a")
+file = open("block_data/blocksIDs.json", "r")
 preExistingData = json.load(file)
+file.close()
 
 running = True
 addedData = {}
@@ -63,12 +64,12 @@ if addedData != {}:
 
     while True:
         addingTheBlocks = str(input("Do you want do add all these blocks to the block data file? (y/n)"))
-        if addingTheBlocks == "y" or addingTheBlocks == "n":
-            break
+        if addingTheBlocks == "y":
+            preExistingData.update(addedData)
+            print(preExistingData)
+        else:
+            print("No data added!")
 
-    if addingTheBlocks == True:
-        print("adding the blocks")
-    else:
-        print("No data added!")
-
+file = open("block_data/blocksIDs.json", "w")
+preExistingData = json.dump(preExistingData, file)
 file.close()

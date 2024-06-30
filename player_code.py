@@ -9,7 +9,7 @@ class PlayerClass(EntityClass):
         self.type = "player"
         super().__init__(self.type)
         self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float((StartWorld + sizeX)/2), float(30)
+        self.x, self.y = float((StartWorld + sizeX)/2), float(50)
         self.count = 0
         self.isSprinting = False
         self.isCrouching = False
