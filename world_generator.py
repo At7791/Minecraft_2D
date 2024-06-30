@@ -46,16 +46,10 @@ def world_generator(sizeX, sizeY, StartWorld, blocksID, HeightBedrockRight1, Hei
         worldMatrix.append(intermediateArray)
     return worldMatrix, a, b, c
 
-def rendering(playerX, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1):
+def rendering(playerX, RenderDistance, worldMatrixGLOBAL, sizeY, d, e, f, a, b, c):
     RenderCoordinateRight = playerX + RenderDistance
     RenderCoordinateLeft = playerX - RenderDistance
     IntermediateGeneration = []
-    a = HeightBedrockRight1
-    b = HeightStoneRight1
-    c = HeightDirtRight1
-    d = HeightBedrockLeft1
-    e = HeightStoneLeft1
-    f = HeightDirtLeft1
 
     for i in range (6):
         if worldMatrixGLOBAL[trunc(RenderCoordinateRight- i)] == []:
@@ -108,9 +102,9 @@ def rendering(playerX, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLe
                     else:
                         IntermediateGeneration.append("air")
             worldMatrixGLOBAL[trunc(RenderCoordinateLeft)] = IntermediateGeneration
-            return IntermediateGeneration, a ,b, c, d, e, f
+            return IntermediateGeneration, d, e, f, a ,b, c
         
         else:
-            return IntermediateGeneration, a ,b, c, d, e, f
+            return IntermediateGeneration, d, e, f, a ,b, c
     
     

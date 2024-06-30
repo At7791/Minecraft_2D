@@ -26,14 +26,21 @@ class EntityClass():
         self.facingPositive = True
         self.cycle = 0
 
-    def isBlockInWorld(self, x = int, y = int): # Returns a boolean which is true or false if the given corrdinate is inside the worldmatrix or not
+    def isBlockInWorld(self, convert, x = int, y = int): # Returns a boolean which is true or false if the given corrdinate is inside the worldmatrix or not
         if x >= 0 and y >= 0:
-            if x in range(self.__class__.worldMatrix[0][1], self.__class__.worldMatrix[-1][1] + 1) and y in range(len(self.__class__.worldMatrix[0][0]) + 1):
-                # if self.__class__.worldMatrix[x]
-                return True
-            else:
+            
+        # if x in range(self.__class__.worldMatrix[0][1], self.__class__.worldMatrix[-1][1] + 1) and y in range(len(self.__class__.worldMatrix[0][0]) + 1):
+            
+            print(x)
+            try:
+                
+                block = self.__class__.worldMatrix[convert.XWMGToLoadedWM(x)][0][y]
+            except:
                 return False
-        return False
+            else:
+                return True
+        else:
+            return False
     
     def updateCycle(self): # Updates the variable cycling used to display the entity sprites
         if self.velocityX != 0:
@@ -73,7 +80,7 @@ class EntityClass():
         if self.nextVelocityY <= 0: # if the entity is going down
             i = 0
             for block in self.hitbox.lowBlocks():
-                if self.isBlockInWorld(block[0] + 1, block[1] + 1):
+                if self.isBlockInWorld(convert, block[0], block[1]):
                     if self.__class__.worldMatrix[trunc(convert.XWMGToLoadedWM(block[0]))][0][block[1] - 1] != "air":
                         self.lowAir = False         # is there an air block below the entity
                     if self.nextY <= block[1]:
@@ -82,7 +89,7 @@ class EntityClass():
         if self.nextVelocityY >= 0: # if the entity is going up
             i = 0
             for block in self.hitbox.highBlocks():
-                if self.isBlockInWorld(block[0] + 1, block[1] + 1):
+                if self.isBlockInWorld(convert, block[0], block[1]):
                     if self.__class__.worldMatrix[trunc(convert.XWMGToLoadedWM(block[0]))][0][block[1]] != "air":
                         self.highAir = False        # is there an air block above the entity
                     if self.nextY <= block[1]:  
@@ -115,7 +122,7 @@ class EntityClass():
         if self.velocityX <= 0:
             i = 0
             for block in self.hitbox.leftBlocks():
-                if self.isBlockInWorld(block[0] + 1, block[1] + 1): 
+                if self.isBlockInWorld(convert, trunc(self.worldLoadDistance - 1.001 - self.hitbox.offsetWithX), block[1]):
                     if self.__class__.worldMatrix[trunc(self.worldLoadDistance - 1.001 - self.hitbox.offsetWithX)][0][block[1]] != "air":
                         self.leftAir = False            # is there an air block to the left of the entity
                     if self.nextX - self.hitbox.offsetWithX <= block[0]:  
@@ -124,7 +131,7 @@ class EntityClass():
         if self.velocityX >= 0:
             i = 0
             for block in self.hitbox.rightBlocks():
-                if self.isBlockInWorld(block[0] + 1, block[1] + 1):
+                if self.isBlockInWorld(convert, trunc(self.worldLoadDistance + self.hitbox.offsetWithX), block[1]):
                     if self.__class__.worldMatrix[trunc(self.worldLoadDistance + self.hitbox.offsetWithX)][0][block[1]] != "air":
                         self.rightAir = False           # is there an air block to the right of the entity
                     if self.nextX + self.hitbox.offsetWithX >= block[0] + 1:

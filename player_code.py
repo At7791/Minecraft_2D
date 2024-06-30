@@ -87,7 +87,7 @@ class PlayerClass(EntityClass):
             self.accelerationX = 0
                 
         if events.jumpKeyPressed == True and self.onGround == True:
-            self.velocityY = 2
+            self.velocityY = 1
 
         # Makes the player sprint, crouch or walk normally
         if events.crouchKeyPressed == True:

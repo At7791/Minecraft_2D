@@ -92,9 +92,11 @@ while running:
     # Game Tick Loop (20 times per second)
     while accumulatorTicks >= durationTick:
         worldMatrixGLOBAL.append(rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1))
-        var1, HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
-        HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1 = HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2
-        print(HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2)
+        var1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
+        
+        # var1, HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
+        # HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1 = HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2
+        print(HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1)
         
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
         convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])

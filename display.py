@@ -106,7 +106,6 @@ class Display():
                 for blockY in range(len(chunk[0])):
                     if chunk[0][blockY] != "air":
                         self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
-
                         if self.player.XYblockTargeting != None:
                             if self.player.XYblockTargeting == (blockX, blockY):
                                 self.blockBreaking = (blockX, blockY)
@@ -142,11 +141,7 @@ class Display():
                 
                 self.Screen.blit(self.displayedSprite, (self.XYonScreen(entity.hitbox.x - ceil(entity.hitbox.lengthX), entity.hitbox.y + ceil(entity.hitbox.lengthY) - 0.0001)))
                 # pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(entity.hitbox.leftBorder, entity.hitbox.highBorder), (self.zoom * entity.hitbox.lengthX, self.zoom * entity.hitbox.lengthY)), 10)
-        
-        # debug displayed onjects
-        pygame.draw.circle(self.Screen, Color("pink"), (self.XYonScreen(5, 5)), 10)
 
-    
     def displayOverlay(self, events, measuredFPS, measuredTPS, waitLoops):
         # ability to zoom in or out
 
@@ -156,10 +151,7 @@ class Display():
             self.F3DebugScreenActive = not self.F3DebugScreenActive
         
         
-        if self.F3DebugScreenActive:    
-            if events.clickingLeft:
-                pygame.draw.circle(self.Screen, Color("pink"), (events.mouseX, events.mouseY), 10)
-            
+        if self.F3DebugScreenActive:
             textColor = "#000000"
 
             displayedStringLine1 = f"Facing positive: {self.player.facingPositive}     X: {float(self.player.x):9.3f}    Y: {float(self.player.y):9.3f}"
