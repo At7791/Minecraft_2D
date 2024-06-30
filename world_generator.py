@@ -1,224 +1,48 @@
 from random import *
 
-def world_generator(worldSizeX, worldSizeY, blocksID):
+def world_generator(sizeX, sizeY, blocksID):
     worldMatrix = []
+    a = 2
+    b = 10
+    c = 15
 
-    
-    # for i in range(worldSizeY):
-    #     intermediateArray = []
-    #     for j in range(worldSizeX):
-    #         if j <2: 
-    #             intermediateArray.append("bedrock")
-    #         else:
-    #             if i % 2 == 0:
-    #                 intermediateArray.append("stone")
+    for i in range(sizeX):
+        intermediateArray = []
+
+        gamble = randrange(0, 3)
+        if gamble == 1:
+            b += 1 
+            c += 1
+        elif gamble == 2:
+            b -= 1
+            c -= 1
+        elif gamble == 0:
+            b = b
+            c = c
+
+        for j in range(sizeY):
+            if j < a: 
+                intermediateArray.append("bedrock")
+            elif a <= j <= b:
+                intermediateArray.append("stone")
+            elif b <= j <= c-1 :
+                intermediateArray.append("dirt")
+            elif c == j:
+                intermediateArray.append("grass_block")
+
+        
+
                 
-    #     worldMatrix.append(intermediateArray)
-
-    worldMatrix = [
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
-    ["air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "air", "air", "stone", "stone", "stone", "stone"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "stone"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "stone"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "stone", "stone"],
-    ["air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "obsidian", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "stone", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "stone", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "stone", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "stone", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "stone", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "stone", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ["bedrock", "bedrock", "stone", "air", "air", "air", "air", "air", "air", "air", "air", "air"],
-    ]
-
-    # worldMatrix = []
-    # for i in range(50):
-    #     worldMatrix.append([ "bedrock", "bedrock", "stone", "air", "air", "air"])
-    #     worldMatrix.append([ "air", "air", "air", "air", "air", "air"])
-    #     worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air"])
-    #     worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air"])
-    #     worldMatrix.append([ "bedrock", "air", "stone", "air", "air", "air"])
-    # worldMatrix = [
-    # ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ["stone", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air", "air",],
-    # ]
+        worldMatrix.append(intermediateArray)
+        print (worldMatrix)
 
     return worldMatrix
+
+def render_condition(sizeY, rendering):
+    if rendering == False:       #change if to while and the game crashes at the world border, but with if it does nothing
+        generated_world =[]
+        for j in range(sizeY):
+            generated_world.append("bedrock")
+        sizeY += 1
+        print (generated_world)
+        return generated_world
