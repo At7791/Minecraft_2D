@@ -1,5 +1,3 @@
-from main import worldLoadDistance, sizeX
-
 def world_loader(worldMatrixGLOBAL, worldLoadDistance, refferenceX):
     worldMatrix = []
     refferenceX = int(refferenceX)
@@ -13,8 +11,8 @@ def world_loader(worldMatrixGLOBAL, worldLoadDistance, refferenceX):
 
 def check_render_distance(playerX, worldLoadDistance, sizeX):
     if playerX + worldLoadDistance <= sizeX:
-        return False
-    else:
         return True
+    else:
+        return False
     
 

@@ -4,6 +4,7 @@ import sys
 from display import Display
 from random import *
 from world_generator import world_generator
+from world_generator import render_condition
 from entity_code import EntityClass
 from player_code import PlayerClass
 from event_controler import Events 
@@ -70,7 +71,8 @@ while running:
         accumulatorTicks -= durationTick
         numberOfTicks += 1
         
-        rendering = check_render_distance(player.x, worldLoadDistance, sizeX)
+        rendering = check_render_distance(player.x, worldLoadDistance, sizeX) #checks if playerY + renderdistance are inside the border
+        render_condition(sizeY, rendering)          #if playerY + renderdistance are outside the border, it starts to generate new terrain
         
     # Frames and Physics Loop (as many times per second as there are Frames per second)
     while accumulatorFrames >= durationFrame:

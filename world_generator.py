@@ -1,20 +1,36 @@
 from random import *
-from main import rendering
 
 def world_generator(sizeX, sizeY, blocksID):
     worldMatrix = []
+    a = 2
+    b = 10
+    c = 15
 
     for i in range(sizeX):
         intermediateArray = []
+
+        gamble = randrange(0, 3)
+        if gamble == 1:
+            b += 1 
+            c += 1
+        elif gamble == 2:
+            b -= 1
+            c -= 1
+        elif gamble == 0:
+            b = b
+            c = c
+
         for j in range(sizeY):
-            if j <2: 
+            if j < a: 
                 intermediateArray.append("bedrock")
-            elif 2 <= j <= 10:
+            elif a <= j <= b:
                 intermediateArray.append("stone")
-            elif 10 <= j <= 14:
+            elif b <= j <= c-1 :
                 intermediateArray.append("dirt")
-            elif 15 == j:
+            elif c == j:
                 intermediateArray.append("grass_block")
+
+        
 
                 
         worldMatrix.append(intermediateArray)
@@ -23,14 +39,9 @@ def world_generator(sizeX, sizeY, blocksID):
     return worldMatrix
 
 def render_condition(sizeY, rendering):
-    while rendering == False:
+    if rendering == False:       #change if to while and the game crashes at the world border, but with if it does nothing
         generated_world =[]
         for j in range(sizeY):
-            if j <2: 
-                generated_world.append("bedrock")
-            elif 2 <= j <= 10:
-                generated_world.append("stone")
-            elif 10 <= j <= 14:
-                generated_world.append("dirt")
-            elif 15 == j:
-                generated_world.append("grass_block")
+            generated_world.append("bedrock")
+        sizeY += 1
+        print (generated_world)
