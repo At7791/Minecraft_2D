@@ -13,8 +13,7 @@ import time
 from xyCoordinateConverter import Converter
 import json
 
-# Block informations
-# blocksID = {"air": ["air", 0], "stone": ["stone", 1.5], "dirt": ["dirt", 0.5], "grass_block": ["grass_block_side", 0.6], "bedrock": ["bedrock", -1], "azalea": ["azalea_plant", 0], "obsidian": ["obsidian", 50]}
+# Block data gets loaded
 blocksID = {}
 file = open("block_data/blocksIDs.json", "r")
 blocksID = json.load(file)
@@ -37,7 +36,7 @@ player = PlayerClass(StartWorld, sizeX)
 entities["player"].append(player)
 EntityClass.worldMatrix = worldMatrix
 
-zoom = 80
+zoom = 90
 dis = Display("minecraft_regular_versionfile", "MinecraftRegular.ttf", blocksID, entities, zoom)
 
 events = Events()
@@ -91,10 +90,12 @@ while running:
 
     # Game Tick Loop (20 times per second)
     while accumulatorTicks >= durationTick:
-
+        # world loading into the worldMatrix variable
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
+
         convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
 
+        # Breaking blocks as the player
         if player.XYblockTargeting != None:
             targetedBlockNatrue = worldMatrix[convert.XWMGToLoadedWM(player.XYblockTargeting[0])][0][player.XYblockTargeting[1]]
             if targetedBlockNatrue != "air":
@@ -124,6 +125,7 @@ while running:
     while accumulatorFrames >= durationFrame:
         deltaTime = accumulatorFrames
 
+        # world generation updates
         events.eventsMain()
         worldMatrixGLOBAL.append(rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1))
         var1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)

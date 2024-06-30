@@ -40,9 +40,6 @@ def world_generator(sizeX, sizeY, StartWorld, blocksID, HeightBedrockRight1, Hei
                 else:
                     intermediateArray.append("air")
 
-                
-        print(f"{intermediateArray}; {i}")  
-
         worldMatrix.append(intermediateArray)
     return worldMatrix, a, b, c
 

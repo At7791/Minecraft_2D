@@ -18,7 +18,7 @@ class Display():
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
         self.windowSizeX = Tk().winfo_screenwidth()
-        self.windowSizeY = Tk().winfo_screenheight() - 300
+        self.windowSizeY = Tk().winfo_screenheight()
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
         self.font = pygame.font.Font(f"fonts\minecraft-font\{fontFile}", 26)
@@ -29,7 +29,7 @@ class Display():
         self.renderDistanceX = 8
         self.renderDistanceY = 8
 
-        self.F3DebugScreenActive = True
+        self.F3DebugScreenActive = False
 
         self.zoom = zoom
         self.blocksID = blocksID
@@ -143,9 +143,6 @@ class Display():
                 # pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(entity.hitbox.leftBorder, entity.hitbox.highBorder), (self.zoom * entity.hitbox.lengthX, self.zoom * entity.hitbox.lengthY)), 10)
 
     def displayOverlay(self, events, measuredFPS, measuredTPS, waitLoops):
-        # ability to zoom in or out
-
-
         # Minecraft F3 Debug Screen
         if events.f3KeyPressed:
             self.F3DebugScreenActive = not self.F3DebugScreenActive

@@ -113,8 +113,7 @@ class PlayerClass(EntityClass):
 
         # Debug keys
         if events.debugTrigger1 == True:
-            self.y = 10
-            self.x = 7.5
+            self.y = 45
             self.count = 0
 
     def getPlayerCoordinates(self):
