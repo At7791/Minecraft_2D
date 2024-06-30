@@ -9,7 +9,7 @@ class PlayerClass(EntityClass):
         self.type = "player"
         super().__init__(self.type)
         self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float(30), float(4.5)
+        self.x, self.y = float(30), float(60)
         self.count = 0
         self.isSprinting = False
         self.isCrouching = False
@@ -96,7 +96,7 @@ class PlayerClass(EntityClass):
             self.isSprinting = False
             self.isCrouching = True
         elif events.sprintKeyPressed == True:
-            self.accelerationX *= 1.3
+            self.accelerationX *= 1.3 * 5
             if self.velocityX != 0:
                 self.isSprinting = True
             self.isCrouching = False

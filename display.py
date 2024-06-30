@@ -102,6 +102,7 @@ class Display():
         self.blockBreaking = None
         for chunk in displayedWorld:
             blockX = chunk[1]
+            print(chunk[0])
             for blockY in range(len(chunk[0])):
                 if chunk[0][blockY] != "air":
                     self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
@@ -147,6 +148,9 @@ class Display():
 
     
     def displayOverlay(self, events, measuredFPS, measuredTPS, waitLoops):
+        # ability to zoom in or out
+
+
         # Minecraft F3 Debug Screen
         if events.f3KeyPressed:
             self.F3DebugScreenActive = not self.F3DebugScreenActive
