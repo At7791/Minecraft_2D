@@ -101,16 +101,16 @@ class Display():
         # Display Blocks !
         self.blockBreaking = None
         for chunk in displayedWorld:
-            blockX = chunk[1]
-            print(chunk[0])
-            for blockY in range(len(chunk[0])):
-                if chunk[0][blockY] != "air":
-                    self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
+            if chunk != []:
+                blockX = chunk[1]
+                for blockY in range(len(chunk[0])):
+                    if chunk[0][blockY] != "air":
+                        self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
 
-                    if self.player.XYblockTargeting != None:
-                        if self.player.XYblockTargeting == (blockX, blockY):
-                            self.blockBreaking = (blockX, blockY)
-                            pygame.draw.rect(self.Screen, Color("#000000"), (self.XYonScreen(self.player.XYblockTargeting[0], self.player.XYblockTargeting[1] + 1), (self.zoom, self.zoom)), self.blockOutlineThickness)
+                        if self.player.XYblockTargeting != None:
+                            if self.player.XYblockTargeting == (blockX, blockY):
+                                self.blockBreaking = (blockX, blockY)
+                                pygame.draw.rect(self.Screen, Color("#000000"), (self.XYonScreen(self.player.XYblockTargeting[0], self.player.XYblockTargeting[1] + 1), (self.zoom, self.zoom)), self.blockOutlineThickness)
 
                     # Uncomment to see black outlines around blockborders
                     # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX, blockY + 1))
