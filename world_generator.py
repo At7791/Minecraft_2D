@@ -7,15 +7,14 @@ def world_generator(sizeX, sizeY, StartWorld, blocksID):
     b = 20
     c = 30
 
-    for i in range(sizeX):
+    for i in range(2*StartWorld + sizeX):
         intermediateArray = []
 
         if i < StartWorld:
-            intermediateArray.append([])
-
-
-        elif i >= StartWorld:
-            
+            pass
+        elif i > StartWorld + sizeX:
+            pass
+        else:
             gamble = randrange(0, 4)
             if gamble < 2:
                 b = b
