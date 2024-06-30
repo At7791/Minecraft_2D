@@ -7,10 +7,3 @@ def world_loader(worldMatrixGLOBAL, worldLoadDistance, refferenceX):
             worldMatrix.append(intermidateList)
     return worldMatrix
 
-
-
-def check_render_distance(playerX, worldLoadDistance, sizeX):
-    if playerX + worldLoadDistance <= sizeX:
-        return True
-    else:
-        return False

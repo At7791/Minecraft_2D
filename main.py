@@ -4,12 +4,11 @@ import sys
 from display import Display
 from random import *
 from world_generator import world_generator
-from world_generator import render_condition
+from world_generator import rendering
 from entity_code import EntityClass
 from player_code import PlayerClass
 from event_controler import Events 
 from world_loader import world_loader
-from world_loader import check_render_distance
 import time
 from xyCoordinateConverter import Converter
 import json
@@ -24,8 +23,12 @@ file.close()
 # World setup and generation
 sizeX, sizeY = 200, 50
 StartWorld = 50
-worldMatrixGLOBAL = world_generator(sizeX, sizeY, StartWorld, blocksID)
+HeightBedrockLeft1 = 2
+HeightStoneLeft1 = 20
+HeightDirtLeft1 = 30
+worldMatrixGLOBAL, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1 = world_generator(sizeX, sizeY, StartWorld, blocksID, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1)
 worldLoadDistance = 30
+RenderDistance = worldLoadDistance + 5
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 
 # Class initialisations
@@ -88,9 +91,8 @@ while running:
 
     # Game Tick Loop (20 times per second)
     while accumulatorTicks >= durationTick:
-        rendering = check_render_distance(player.x, worldLoadDistance, sizeX) #checks if playerY + renderdistance are inside the border
-        worldMatrixGLOBAL.append(render_condition(sizeY, rendering))         #if playerY + renderdistance are outside the border, it starts to generate new terrain
-
+        worldMatrixGLOBAL.append(rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1))
+        var1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
         
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
         convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])

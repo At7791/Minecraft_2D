@@ -1,25 +1,27 @@
 from random import *
+from math import trunc
 
-def world_generator(sizeX, sizeY, StartWorld, blocksID):
+def world_generator(sizeX, sizeY, StartWorld, blocksID, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1):
     worldMatrix = []
     
-    a = 2
-    b = 20
-    c = 30
+    a = HeightBedrockRight1
+    b = HeightStoneRight1
+    c = HeightDirtRight1
 
     for i in range(2*StartWorld + sizeX):
         intermediateArray = []
-
-        if i < StartWorld:
+        if i == 1:
+            for j in range(sizeY):
+                intermediateArray.append("bedrock")
+        elif i < StartWorld:
             pass
         elif i > StartWorld + sizeX:
             pass
         else:
             gamble = randrange(0, 4)
             if gamble < 2:
-                b = b
-                c = c
-            elif gamble == 2:
+                pass
+            elif gamble == 2 and c+1 != sizeY:
                 b += 1 
                 c += 1
             elif gamble == 3:
@@ -29,25 +31,81 @@ def world_generator(sizeX, sizeY, StartWorld, blocksID):
             for j in range(sizeY):
                 if j < a: 
                     intermediateArray.append("bedrock")
-                elif a <= j <= b:
+                elif a <= j < b:
                     intermediateArray.append("stone")
-                elif b <= j <= c-1 :
+                elif b <= j < c :
                     intermediateArray.append("dirt")
                 elif c == j:
                     intermediateArray.append("grass_block")
                 else:
                     intermediateArray.append("air")
+
                 
-        print(intermediateArray)  
+        print(f"{intermediateArray}; {i}")  
 
         worldMatrix.append(intermediateArray)
-    return worldMatrix
+    return worldMatrix, a, b, c
 
-def render_condition(sizeY, rendering):
-    if rendering == False:       #change if to while and the game crashes at the world border, but with if it does nothing
-        generated_world =[]
+def rendering(playerX, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1):
+    RenderCoordinateRight = playerX + RenderDistance
+    RenderCoordinateLeft = playerX - RenderDistance
+    IntermediateGeneration = []
+    a = HeightBedrockRight1
+    b = HeightStoneRight1
+    c = HeightDirtRight1
+    d = HeightBedrockLeft1
+    e = HeightStoneLeft1
+    f = HeightDirtLeft1
+
+    if worldMatrixGLOBAL[trunc(RenderCoordinateRight)] == []:
+        
+        
+        gamble = randrange(0, 4)
+        if gamble < 2:
+            pass
+        elif gamble == 2 and c+1 != sizeY:
+            b += 1 
+            c += 1
+        elif gamble == 3:
+            b -= 1
+            c -= 1
+
         for j in range(sizeY):
-            generated_world.append("bedrock")
-        sizeY += 1
-        print (generated_world)
-        return generated_world
+                if j < a: 
+                    IntermediateGeneration.append("bedrock")
+                elif a <= j < b:
+                    IntermediateGeneration.append("stone")
+                elif b <= j < c :
+                    IntermediateGeneration.append("dirt")
+                elif c == j:
+                    IntermediateGeneration.append("grass_block")
+                else:
+                    IntermediateGeneration.append("air")
+        worldMatrixGLOBAL[trunc(RenderCoordinateRight)] = IntermediateGeneration
+        return worldMatrixGLOBAL[trunc(RenderCoordinateRight)], a ,b, c, d, e, f
+    
+    elif worldMatrixGLOBAL[trunc(RenderCoordinateLeft)] == []:
+        gamble = randrange(0, 4)
+        if gamble < 2:
+            pass
+        elif gamble == 2 and c+1 != sizeY:
+            e += 1 
+            f += 1
+        elif gamble == 3:
+            e -= 1
+            f -= 1
+
+        for j in range(sizeY):
+                if j < d: 
+                    IntermediateGeneration.append("bedrock")
+                elif d <= j < e:
+                    IntermediateGeneration.append("stone")
+                elif e <= j < f :
+                    IntermediateGeneration.append("dirt")
+                elif f == j:
+                    IntermediateGeneration.append("grass_block")
+                else:
+                    IntermediateGeneration.append("air")
+        worldMatrixGLOBAL[trunc(RenderCoordinateLeft)] = IntermediateGeneration
+        return worldMatrixGLOBAL[trunc(RenderCoordinateLeft)], a ,b, c, d, e, f
+    
