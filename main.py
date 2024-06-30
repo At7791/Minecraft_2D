@@ -14,10 +14,6 @@ import time
 from xyCoordinateConverter import Converter
 import json
 
-test = [[], []]
-
-
-
 # Block informations
 # blocksID = {"air": ["air", 0], "stone": ["stone", 1.5], "dirt": ["dirt", 0.5], "grass_block": ["grass_block_side", 0.6], "bedrock": ["bedrock", -1], "azalea": ["azalea_plant", 0], "obsidian": ["obsidian", 50]}
 blocksID = {}
@@ -37,7 +33,7 @@ player = PlayerClass()
 entities["player"].append(player)
 EntityClass.worldMatrix = worldMatrix
 
-zoom = 20
+zoom = 15
 dis = Display("minecraft_regular_versionfile", "MinecraftRegular.ttf", blocksID, entities, zoom)
 
 events = Events()
