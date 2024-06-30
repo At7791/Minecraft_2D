@@ -22,13 +22,14 @@ file.close()
 
 # World setup and generation
 sizeX, sizeY = 200, 50
-StartWorld = 50
+StartWorld = 200
 HeightBedrockLeft1 = 2
+HeightDeepslate1 = 5
 HeightStoneLeft1 = 20
 HeightDirtLeft1 = 30
-worldMatrixGLOBAL, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1 = world_generator(sizeX, sizeY, StartWorld, blocksID, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1)
+worldMatrixGLOBAL, HeightBedrockRight1, HeightDeepslate1, HeightStoneRight1, HeightDirtRight1 = world_generator(sizeX, sizeY, StartWorld, blocksID, HeightBedrockLeft1, HeightDeepslate1, HeightStoneLeft1, HeightDirtLeft1)
 worldLoadDistance = 30
-RenderDistance = worldLoadDistance + 5
+RenderDistance = worldLoadDistance + 15
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 
 # Class initialisations
@@ -91,12 +92,7 @@ while running:
 
     # Game Tick Loop (20 times per second)
     while accumulatorTicks >= durationTick:
-        worldMatrixGLOBAL.append(rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1))
-        var1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
         
-        # var1, HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
-        # HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1 = HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2
-        print(HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1)
         
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
         convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
@@ -128,6 +124,12 @@ while running:
 
     # Frames and Player physics Loop (as many times per second as there are FPS)
     while accumulatorFrames >= durationFrame:
+        worldMatrixGLOBAL.append(rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1))
+        var1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockRight1, HeightDeepsRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightDeepslateLeft1, HeightStoneLeft1, HeightDirtLeft1)
+        # print(HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1)
+        # var1, HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
+        # HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1 = HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2
+
         deltaTime = accumulatorFrames
 
         events.eventsMain()
