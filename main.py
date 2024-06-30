@@ -23,13 +23,14 @@ file.close()
 
 # World setup and generation
 sizeX, sizeY = 200, 50
-worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
+StartWorld = 50
+worldMatrixGLOBAL = world_generator(sizeX, sizeY, StartWorld, blocksID)
 worldLoadDistance = 30
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 
 # Class initialisations
 entities = {"player": []}
-player = PlayerClass()
+player = PlayerClass(StartWorld, sizeX)
 entities["player"].append(player)
 EntityClass.worldMatrix = worldMatrix
 

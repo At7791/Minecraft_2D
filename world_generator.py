@@ -1,37 +1,46 @@
 from random import *
 
-def world_generator(sizeX, sizeY, blocksID):
+def world_generator(sizeX, sizeY, StartWorld, blocksID):
     worldMatrix = []
+    
     a = 2
-    b = 10
-    c = 15
+    b = 20
+    c = 30
 
     for i in range(sizeX):
         intermediateArray = []
 
-        gamble = randrange(0, 3)
-        if gamble == 1:
-            b += 1 
-            c += 1
-        elif gamble == 2:
-            b -= 1
-            c -= 1
-        elif gamble == 0:
-            b = b
-            c = c
+        if i < StartWorld:
+            intermediateArray.append([])
 
-        for j in range(sizeY):
-            if j < a: 
-                intermediateArray.append("bedrock")
-            elif a <= j <= b:
-                intermediateArray.append("stone")
-            elif b <= j <= c-1 :
-                intermediateArray.append("dirt")
-            elif c == j:
-                intermediateArray.append("grass_block")
-            else:
-                intermediateArray.append("air")
+
+        elif i >= StartWorld:
+            
+            gamble = randrange(0, 4)
+            if gamble < 2:
+                b = b
+                c = c
+            elif gamble == 2:
+                b += 1 
+                c += 1
+            elif gamble == 3:
+                b -= 1
+                c -= 1
+
+            for j in range(sizeY):
+                if j < a: 
+                    intermediateArray.append("bedrock")
+                elif a <= j <= b:
+                    intermediateArray.append("stone")
+                elif b <= j <= c-1 :
+                    intermediateArray.append("dirt")
+                elif c == j:
+                    intermediateArray.append("grass_block")
+                else:
+                    intermediateArray.append("air")
                 
+        print(intermediateArray)  
+
         worldMatrix.append(intermediateArray)
     return worldMatrix
 
