@@ -101,7 +101,7 @@ class Display():
         # Display Blocks !
         self.blockBreaking = None
         for chunk in displayedWorld:
-            if chunk != []:
+            if chunk != [] and chunk[0] != None:
                 blockX = chunk[1]
                 for blockY in range(len(chunk[0])):
                     if chunk[0][blockY] != "air":

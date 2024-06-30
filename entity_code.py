@@ -26,9 +26,10 @@ class EntityClass():
         self.facingPositive = True
         self.cycle = 0
 
-    def isBlockInWorld(self, x = int, y = int): # Returns a boolean which is true or false if the given corrdinate is inside the worldmatrix or not
+    def isBlockInWorld(self, convert, x = int, y = int): # Returns a boolean which is true or false if the given corrdinate is inside the worldmatrix or not
         if x >= 0 and y >= 0:
             if x in range(self.__class__.worldMatrix[0][1], self.__class__.worldMatrix[-1][1] + 1) and y in range(len(self.__class__.worldMatrix[0][0]) + 1):
+                # if self.__class__.worldMatrix[x]
                 return True
             else:
                 return False
