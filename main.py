@@ -22,9 +22,9 @@ blocksID = json.load(file)
 file.close()
 
 # World setup and generation
-sizeX, sizeY = 50, 200
+sizeX, sizeY = 200, 50
 worldMatrixGLOBAL = world_generator(sizeX, sizeY, blocksID)
-worldLoadDistance = 15
+worldLoadDistance = 30
 worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, 0)
 
 # Class initialisations
@@ -33,7 +33,7 @@ player = PlayerClass()
 entities["player"].append(player)
 EntityClass.worldMatrix = worldMatrix
 
-zoom = 90
+zoom = 20
 dis = Display("minecraft_regular_versionfile", "MinecraftRegular.ttf", blocksID, entities, zoom)
 
 events = Events()
@@ -69,8 +69,6 @@ elapsedTimeFrames = 0
 count = 0
 
 running = True
-for i in worldMatrix:
-    print(i)
 
 while running:
     # Time calculations

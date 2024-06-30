@@ -29,13 +29,10 @@ def world_generator(sizeX, sizeY, blocksID):
                 intermediateArray.append("dirt")
             elif c == j:
                 intermediateArray.append("grass_block")
-
-        
-
+            else:
+                intermediateArray.append("air")
                 
         worldMatrix.append(intermediateArray)
-        print (worldMatrix)
-
     return worldMatrix
 
 def render_condition(sizeY, rendering):
