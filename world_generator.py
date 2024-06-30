@@ -45,3 +45,4 @@ def render_condition(sizeY, rendering):
             generated_world.append("bedrock")
         sizeY += 1
         print (generated_world)
+        return generated_world
