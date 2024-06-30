@@ -57,55 +57,60 @@ def rendering(playerX, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLe
     e = HeightStoneLeft1
     f = HeightDirtLeft1
 
-    if worldMatrixGLOBAL[trunc(RenderCoordinateRight)] == []:
-        
-        
-        gamble = randrange(0, 4)
-        if gamble < 2:
-            pass
-        elif gamble == 2 and c+1 != sizeY:
-            b += 1 
-            c += 1
-        elif gamble == 3:
-            b -= 1
-            c -= 1
+    for i in range (6):
+        if worldMatrixGLOBAL[trunc(RenderCoordinateRight- i)] == []:
+            
+            gamble = randrange(0, 4)
+            if gamble < 2:
+                pass
+            elif gamble == 2 and c+1 != sizeY:
+                b += 1 
+                c += 1
+            elif gamble == 3:
+                b -= 1
+                c -= 1
 
-        for j in range(sizeY):
-                if j < a: 
-                    IntermediateGeneration.append("bedrock")
-                elif a <= j < b:
-                    IntermediateGeneration.append("stone")
-                elif b <= j < c :
-                    IntermediateGeneration.append("dirt")
-                elif c == j:
-                    IntermediateGeneration.append("grass_block")
-                else:
-                    IntermediateGeneration.append("air")
-        worldMatrixGLOBAL[trunc(RenderCoordinateRight)] = IntermediateGeneration
-        return worldMatrixGLOBAL[trunc(RenderCoordinateRight)], a ,b, c, d, e, f
+            for j in range(sizeY):
+                    if j < a: 
+                        IntermediateGeneration.append("bedrock")
+                    elif a <= j < b:
+                        IntermediateGeneration.append("stone")
+                    elif b <= j < c :
+                        IntermediateGeneration.append("dirt")
+                    elif c == j:
+                        IntermediateGeneration.append("grass_block")
+                    else:
+                        IntermediateGeneration.append("air")
+            worldMatrixGLOBAL[trunc(RenderCoordinateRight)] = IntermediateGeneration
+            worldMatrixGLOBAL[trunc(RenderCoordinateRight) + 1] = []
+            return IntermediateGeneration, a ,b, c, d, e, f
+        
+        if worldMatrixGLOBAL[trunc(RenderCoordinateLeft + i)] == []:
+            gamble = randrange(0, 4)
+            if gamble < 2:
+                pass
+            elif gamble == 2 and c+1 != sizeY:
+                e += 1 
+                f += 1
+            elif gamble == 3:
+                e -= 1
+                f -= 1
+
+            for j in range(sizeY):
+                    if j < d: 
+                        IntermediateGeneration.append("bedrock")
+                    elif d <= j < e:
+                        IntermediateGeneration.append("stone")
+                    elif e <= j < f :
+                        IntermediateGeneration.append("dirt")
+                    elif f == j:
+                        IntermediateGeneration.append("grass_block")
+                    else:
+                        IntermediateGeneration.append("air")
+            worldMatrixGLOBAL[trunc(RenderCoordinateLeft)] = IntermediateGeneration
+            return IntermediateGeneration, a ,b, c, d, e, f
+        
+        else:
+            return IntermediateGeneration, a ,b, c, d, e, f
     
-    elif worldMatrixGLOBAL[trunc(RenderCoordinateLeft)] == []:
-        gamble = randrange(0, 4)
-        if gamble < 2:
-            pass
-        elif gamble == 2 and c+1 != sizeY:
-            e += 1 
-            f += 1
-        elif gamble == 3:
-            e -= 1
-            f -= 1
-
-        for j in range(sizeY):
-                if j < d: 
-                    IntermediateGeneration.append("bedrock")
-                elif d <= j < e:
-                    IntermediateGeneration.append("stone")
-                elif e <= j < f :
-                    IntermediateGeneration.append("dirt")
-                elif f == j:
-                    IntermediateGeneration.append("grass_block")
-                else:
-                    IntermediateGeneration.append("air")
-        worldMatrixGLOBAL[trunc(RenderCoordinateLeft)] = IntermediateGeneration
-        return worldMatrixGLOBAL[trunc(RenderCoordinateLeft)], a ,b, c, d, e, f
     
