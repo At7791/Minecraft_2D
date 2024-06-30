@@ -9,7 +9,7 @@ class PlayerClass(EntityClass):
         self.type = "player"
         super().__init__(self.type)
         self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float((StartWorld + sizeX)/2), float(50)
+        self.x, self.y = float(StartWorld + sizeX / 2), float(45)
         self.count = 0
         self.isSprinting = False
         self.isCrouching = False
@@ -87,7 +87,7 @@ class PlayerClass(EntityClass):
             self.accelerationX = 0
                 
         if events.jumpKeyPressed == True and self.onGround == True:
-            self.velocityY = 1
+            self.velocityY = 0.53
 
         # Makes the player sprint, crouch or walk normally
         if events.crouchKeyPressed == True:
@@ -96,7 +96,7 @@ class PlayerClass(EntityClass):
             self.isSprinting = False
             self.isCrouching = True
         elif events.sprintKeyPressed == True:
-            self.accelerationX *= 1.3 * 5
+            self.accelerationX *= 1.3
             if self.velocityX != 0:
                 self.isSprinting = True
             self.isCrouching = False

@@ -28,14 +28,11 @@ class EntityClass():
 
     def isBlockInWorld(self, convert, x = int, y = int): # Returns a boolean which is true or false if the given corrdinate is inside the worldmatrix or not
         if x >= 0 and y >= 0:
-            
         # if x in range(self.__class__.worldMatrix[0][1], self.__class__.worldMatrix[-1][1] + 1) and y in range(len(self.__class__.worldMatrix[0][0]) + 1):
-            
-            print(x)
             try:
-                
                 block = self.__class__.worldMatrix[convert.XWMGToLoadedWM(x)][0][y]
             except:
+                # print(convert.XWMGToLoadedWM(x))
                 return False
             else:
                 return True
@@ -122,7 +119,7 @@ class EntityClass():
         if self.velocityX <= 0:
             i = 0
             for block in self.hitbox.leftBlocks():
-                if self.isBlockInWorld(convert, trunc(self.worldLoadDistance - 1.001 - self.hitbox.offsetWithX), block[1]):
+                if self.isBlockInWorld(convert, block[0], block[1]):
                     if self.__class__.worldMatrix[trunc(self.worldLoadDistance - 1.001 - self.hitbox.offsetWithX)][0][block[1]] != "air":
                         self.leftAir = False            # is there an air block to the left of the entity
                     if self.nextX - self.hitbox.offsetWithX <= block[0]:  
@@ -131,7 +128,7 @@ class EntityClass():
         if self.velocityX >= 0:
             i = 0
             for block in self.hitbox.rightBlocks():
-                if self.isBlockInWorld(convert, trunc(self.worldLoadDistance + self.hitbox.offsetWithX), block[1]):
+                if self.isBlockInWorld(convert, block[0], block[1]):
                     if self.__class__.worldMatrix[trunc(self.worldLoadDistance + self.hitbox.offsetWithX)][0][block[1]] != "air":
                         self.rightAir = False           # is there an air block to the right of the entity
                     if self.nextX + self.hitbox.offsetWithX >= block[0] + 1:

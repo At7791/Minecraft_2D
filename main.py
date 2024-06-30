@@ -22,7 +22,7 @@ file.close()
 
 # World setup and generation
 sizeX, sizeY = 200, 50
-StartWorld = 50
+StartWorld = 1500
 HeightBedrockLeft1 = 2
 HeightStoneLeft1 = 20
 HeightDirtLeft1 = 30
@@ -37,7 +37,7 @@ player = PlayerClass(StartWorld, sizeX)
 entities["player"].append(player)
 EntityClass.worldMatrix = worldMatrix
 
-zoom = 15
+zoom = 80
 dis = Display("minecraft_regular_versionfile", "MinecraftRegular.ttf", blocksID, entities, zoom)
 
 events = Events()
@@ -91,13 +91,7 @@ while running:
 
     # Game Tick Loop (20 times per second)
     while accumulatorTicks >= durationTick:
-        worldMatrixGLOBAL.append(rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1))
-        var1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
-        
-        # var1, HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
-        # HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1 = HeightBedrockRight2, HeightStoneRight2, HeightDirtRight2, HeightBedrockLeft2, HeightStoneLeft2, HeightDirtLeft2
-        print(HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1)
-        
+
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
         convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
 
@@ -131,7 +125,9 @@ while running:
         deltaTime = accumulatorFrames
 
         events.eventsMain()
-
+        worldMatrixGLOBAL.append(rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1))
+        var1, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1 = rendering(player.x, RenderDistance, worldMatrixGLOBAL, sizeY, HeightBedrockLeft1, HeightStoneLeft1, HeightDirtLeft1, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1)
+        
         # Player and Entity Class updates
         EntityClass.worldMatrix = worldMatrix
         EntityClass.worldLoadDistance = worldLoadDistance
