@@ -4,10 +4,12 @@ import sys
 from display import Display
 from random import *
 from world_generator import world_generator
+from world_generator import render_condition
 from entity_code import EntityClass
 from player_code import PlayerClass
 from event_controler import Events 
 from world_loader import world_loader
+from world_loader import check_render_distance
 import time
 from xyCoordinateConverter import Converter
 import json
