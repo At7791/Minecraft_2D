@@ -2,7 +2,7 @@ from entity_code import EntityClass
 from hitbox_code import Hitboxes
 from pygame import *
 import pygame
-from math import trunc
+from math import ceil
 
 class PlayerClass(EntityClass):
     def __init__(self):
@@ -13,8 +13,12 @@ class PlayerClass(EntityClass):
         self.count = 0
         self.isSprinting = False
         self.isCrouching = False
-        self.XYblockBreaking = False
-        self.blockDestroy = False
+
+        self.XYblockTargeting = None
+        self.lastXYblockTargeting = self.XYblockTargeting
+        self.breakTimer = None
+        self.breakBlock = False
+        self.breakProgress = 0
 
     # Updates the variable cycling used to display the player sprites
     def updateCycle(self):
@@ -31,6 +35,43 @@ class PlayerClass(EntityClass):
                     self.cycle += 1
         else:
             self.cycle = 0
+
+    def blockMiningTime(self, blockHardness):
+        if blockHardness == 0:
+            return 0
+        
+        speedMultiplier = 1
+        blockDamage = speedMultiplier / blockHardness
+        blockDamage /= 30
+        
+        # print(blockDamage, ceil(1 / blockDamage))
+        if blockDamage > 1:
+            return 0
+        
+        return ceil(1 / blockDamage)
+
+    def blockInteractions(self, blockHardness):
+        if self.lastXYblockTargeting != self.XYblockTargeting:
+            self.breakTimer = None
+        self.lastXYblockTargeting = self.XYblockTargeting
+        
+        if self.breakTimer == None:
+            self.numberOfTicks = self.blockMiningTime(blockHardness)
+            self.breakTimer = 0
+            self.breakProgress = 0
+            self.breakBlock = False
+            # print(self.numberOfTicks)
+
+        if self.breakTimer >= self.numberOfTicks and self.numberOfTicks >= 0:
+            self.breakTimer = None
+            self.breakBlock = True
+            self.breakProgress = 0
+        else:
+            self.breakTimer += 1
+            if self.numberOfTicks > 0:
+                self.breakProgress = ceil(10 * (self.breakTimer / self.numberOfTicks))
+            else:
+                self.breakProgress = 1
 
     def updatesPhysics(self, events, calibrationFPS, convert):
         super().updatesPhysics(calibrationFPS, convert)
@@ -63,24 +104,18 @@ class PlayerClass(EntityClass):
             self.isSprinting = False
             self.isCrouching = False
         
-        self.blockDestroy = False
+
         if events.clickingLeft == True:
-            self.XYblockBreaking = (events.mouseX, events.mouseY)
+            self.XYblockTargeting = (events.mouseX, events.mouseY)
         else:
-            self.XYblockBreaking = None
-            self.blockDestroy
+            self.XYblockTargeting = None
+
 
         # Debug keys
         if events.debugTrigger1 == True:
             self.y = 10
             self.x = 7.5
             self.count = 0
-        
-        
-        # if self.velocityY < -3.91990:
-        #     print(self.count, self.velocityY)
-        # else:
-        #     print(self.velocityY)
 
     def getPlayerCoordinates(self):
         return (self.x, self.y)

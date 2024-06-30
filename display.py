@@ -3,6 +3,7 @@ from tkinter import *
 import pygame
 from pygame import *
 import pygame.draw
+import pygame.font
 import pygame.image
 import pygame.surface
 import pygame.transform
@@ -12,7 +13,7 @@ from math import ceil, trunc
 import os
 
 class Display():
-    def __init__(self, texturePackFileName, blocksID, entities, zoom):    
+    def __init__(self, texturePackFileName, fontFile, blocksID, entities, zoom):    
         pygame.init()
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
@@ -20,7 +21,7 @@ class Display():
         self.windowSizeY = Tk().winfo_screenheight() - 300
         self.backgroundColor = "#b3eeff"
         self.Screen = pygame.display.set_mode((self.windowSizeX, self.windowSizeY))
-        self.font = pygame.font.SysFont("Minecraft Regular", 26)
+        self.font = pygame.font.Font(f"fonts\minecraft-font\{fontFile}", 26)
         
         self.entities = entities
         self.player = self.entities["player"][0]
@@ -33,12 +34,13 @@ class Display():
         self.zoom = zoom
         self.blocksID = blocksID
         self.spriteNumber = 0
+        self.blockOutlineThickness = 2
 
         # generages the dictionary containing every block texture corresponding to the block ID
         self.blockImages = {}
         for i in self.blocksID.keys():
             if i != "air":
-                self.path = f'{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(i)[0]}.png'
+                self.path = f'textures/{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(i)[0]}.png'
                 self.image = pygame.image.load(self.path).convert_alpha()
                 self.image = pygame.transform.scale(self.image, (self.zoom + 1, self.zoom + 1))
                 self.blockImages[i] = self.image
@@ -68,14 +70,14 @@ class Display():
         # generates the list containing every block break animation image
         self.breakFrames = []
         for i in range(10):
-            self.path = f"{self.texturePackFileName}/assets/minecraft/textures/block/destroy_stage_{i}.png"
+            self.path = f"textures/{self.texturePackFileName}/assets/minecraft/textures/block/destroy_stage_{i}.png"
             self.image = pygame.image.load(self.path).convert_alpha()
             self.image = pygame.transform.scale(self.image, (self.zoom + 1, self.zoom + 1))
             self.breakFrames.append(self.image)
-    
+
     # generates the file path with the block ID
     def getFilePathFromDictionary(self, IDofCurrentBlock):
-        self.path = f'{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(IDofCurrentBlock)[0]}.png'
+        self.path = f'textures/{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(IDofCurrentBlock)[0]}.png'
         return self.path 
     
     # Converts the minecraft coordinates into coordinates on Screen
@@ -97,18 +99,24 @@ class Display():
         self.Screen.fill(Color(self.backgroundColor))
 
         # Display Blocks !
+        self.blockBreaking = None
         for chunk in displayedWorld:
             blockX = chunk[1]
             for blockY in range(len(chunk[0])):
                 if chunk[0][blockY] != "air":
                     self.Screen.blit(self.blockImages[chunk[0][blockY]], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
 
-                    if self.player.XYblockBreaking != None:
-                        if self.player.XYblockBreaking == (blockX, blockY):
-                            self.Screen.blit(self.breakFrames[9], (self.XYonScreen(blockX, blockY + 1), (self.zoom, self.zoom)))
-                # Uncomment to see black outlines around blockborders
-                # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX, blockY + 1))
-                # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX + 1, blockY))
+                    if self.player.XYblockTargeting != None:
+                        if self.player.XYblockTargeting == (blockX, blockY):
+                            self.blockBreaking = (blockX, blockY)
+                            pygame.draw.rect(self.Screen, Color("#000000"), (self.XYonScreen(self.player.XYblockTargeting[0], self.player.XYblockTargeting[1] + 1), (self.zoom, self.zoom)), self.blockOutlineThickness)
+
+                    # Uncomment to see black outlines around blockborders
+                    # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX, blockY + 1))
+                    # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX + 1, blockY))
+
+        if self.blockBreaking != None and self.player.breakTimer != None:
+            self.Screen.blit(self.breakFrames[self.player.breakProgress - 1], (self.XYonScreen(self.blockBreaking[0], self.blockBreaking[1] + 1), (self.zoom, self.zoom)))
 
         # Display entities !
         for entityType in entities.keys():
@@ -153,7 +161,14 @@ class Display():
             displayedStringLine1 = f"Facing positive: {self.player.facingPositive}     X: {float(self.player.x):9.3f}    Y: {float(self.player.y):9.3f}"
             displayedStringLine2 = f"Mouse: X: {float(self.XYinWorld(events.mouseX, events.mouseY, False)[0]):9.3f},  Y: {float(self.XYinWorld(events.mouseX, events.mouseY, False)[1]):9.3f}"
             displayedStringLine3 = f"FPS: {measuredFPS}    TPS: {measuredTPS}    Wait Loop: {waitLoops}"
+            if self.player.XYblockTargeting != None:
+                displayedStringLine4 = f"Targeted Block: X: {self.player.XYblockTargeting[0]}   Y: {self.player.XYblockTargeting[1]}"
+            else:
+                displayedStringLine4 = f"Targeted Block: X: None   Y: None"
+            displayedStringLine5 = f"breakTimer: {self.player.breakProgress}"
 
-            self.Screen.blit(self.font.render(displayedStringLine1, False, textColor), (10, 10))
-            self.Screen.blit(self.font.render(displayedStringLine2, False, textColor), (10, 40))
-            self.Screen.blit(self.font.render(displayedStringLine3, False, textColor), (10, 70))
+            self.Screen.blit(self.font.render(displayedStringLine1, False, textColor), (10, 5))
+            self.Screen.blit(self.font.render(displayedStringLine2, False, textColor), (10, 35))
+            self.Screen.blit(self.font.render(displayedStringLine3, False, textColor), (10, 65))
+            self.Screen.blit(self.font.render(displayedStringLine4, False, textColor), (10, 95))
+            self.Screen.blit(self.font.render(displayedStringLine5, False, textColor), (10, 125))

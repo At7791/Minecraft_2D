@@ -10,9 +10,14 @@ from event_controler import Events
 from world_loader import world_loader
 import time
 from xyCoordinateConverter import Converter
+import json
 
 # Block informations
-blocksID = {"air": ["air"], "stone": ["stone", 1.5], "dirt": ["dirt", 0.5], "grass_block": ["grass_block_side", 0.6], "bedrock": ["bedrock", - 1]}
+# blocksID = {"air": ["air", 0], "stone": ["stone", 1.5], "dirt": ["dirt", 0.5], "grass_block": ["grass_block_side", 0.6], "bedrock": ["bedrock", -1], "azalea": ["azalea_plant", 0], "obsidian": ["obsidian", 50]}
+blocksID = {}
+file = open("block_data/blocksIDs.json", "r")
+blocksID = json.load(file)
+file.close()
 
 # World setup and generation
 sizeX, sizeY = 3, 7
@@ -27,7 +32,7 @@ entities["player"].append(player)
 EntityClass.worldMatrix = worldMatrix
 
 zoom = 90
-dis = Display("Faithful64x", blocksID, entities, zoom)
+dis = Display("minecraft_regular_versionfile", "MinecraftRegular.ttf", blocksID, entities, zoom)
 
 events = Events()
 convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
@@ -62,6 +67,8 @@ elapsedTimeFrames = 0
 count = 0
 
 running = True
+for i in worldMatrix:
+    print(i)
 
 while running:
     # Time calculations
@@ -82,8 +89,17 @@ while running:
     while accumulatorTicks >= durationTick:
         worldMatrix = world_loader(worldMatrixGLOBAL, worldLoadDistance, player.x)
         convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
-        events.eventsMain()
-        
+
+        if player.XYblockTargeting != None:
+            targetedBlockNatrue = worldMatrix[convert.XWMGToLoadedWM(player.XYblockTargeting[0])][0][player.XYblockTargeting[1]]
+            if targetedBlockNatrue != "air":
+                player.blockInteractions(blocksID[targetedBlockNatrue][1])
+            else:
+                player.breakTimer = None
+            if player.breakBlock == True:
+                worldMatrix[convert.XWMGToLoadedWM(player.XYblockTargeting[0])][0][player.XYblockTargeting[1]] = "air"
+        else:
+            player.breakTimer = None
 
 
         # Executes code on every entity in the loaded world
@@ -103,15 +119,15 @@ while running:
     while accumulatorFrames >= durationFrame:
         deltaTime = accumulatorFrames
 
+        events.eventsMain()
+
         # Player and Entity Class updates
         EntityClass.worldMatrix = worldMatrix
         EntityClass.worldLoadDistance = worldLoadDistance
         player.updatesPhysics(events, deltaTime * TPS, convert)
-        if player.XYblockBreaking != None:
-            player.XYblockBreaking = dis.XYinWorld(player.XYblockBreaking[0], player.XYblockBreaking[1], True)
-        if player.blockDestroy == True:
-            print(worldMatrix)
-            worldMatrix[player.XYblockBreaking[0]][player.XYblockBreaking[1]] = "air"
+        if player.XYblockTargeting != None:
+            player.XYblockTargeting = dis.XYinWorld(player.XYblockTargeting[0], player.XYblockTargeting[1], True)
+
         # Display Updates
         dis.displayMain(worldMatrix, entities)
         dis.displayOverlay(events, measuredFPS, measuredTPS, waitLoops)
@@ -131,4 +147,4 @@ while running:
         count = 0
         preivousSecond = time.time()
     time.sleep(0.001)
-quit() 
+quit()

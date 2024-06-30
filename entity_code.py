@@ -73,7 +73,7 @@ class EntityClass():
             i = 0
             for block in self.hitbox.lowBlocks():
                 if self.isBlockInWorld(block[0] + 1, block[1] + 1):
-                    if self.__class__.worldMatrix[trunc(convert.XWMGToLoadedWM(block[0] - 1))][0][block[1] - 1] != "air":
+                    if self.__class__.worldMatrix[trunc(convert.XWMGToLoadedWM(block[0]))][0][block[1] - 1] != "air":
                         self.lowAir = False         # is there an air block below the entity
                     if self.nextY <= block[1]:
                         self.lowBlockBorder = True  # will the entity cross the blockborder of the block below in the next iteration
@@ -82,7 +82,7 @@ class EntityClass():
             i = 0
             for block in self.hitbox.highBlocks():
                 if self.isBlockInWorld(block[0] + 1, block[1] + 1):
-                    if self.__class__.worldMatrix[trunc(convert.XWMGToLoadedWM(block[0] - 1))][0][block[1]] != "air":
+                    if self.__class__.worldMatrix[trunc(convert.XWMGToLoadedWM(block[0]))][0][block[1]] != "air":
                         self.highAir = False        # is there an air block above the entity
                     if self.nextY <= block[1]:  
                         self.highBlockBorder = True # will the entity cross the blockborder of the block above in the next iteration
