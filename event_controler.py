@@ -22,6 +22,7 @@ class Events():
         
         
         self.f3KeyPressed = False
+        self.debugTrigger1 = False
 
         for event in pygame.event.get():
             # Exit program through pressing the windows red cross

@@ -11,13 +11,16 @@ from event_controler import Events
 from world_loader import world_loader
 import time
 from xyCoordinateConverter import Converter
-import json
+from game_data_loader import load_block_data, load_particle_data
+from particles import Particles
 
+
+
+active_texture_pack = "minecraft_regular_versionfile"
+    
 # Block data gets loaded
-blocksID = {}
-file = open("block_data/blocksIDs.json", "r")
-blocksID = json.load(file)
-file.close()
+blocksID = load_block_data(active_texture_pack)
+
 
 # World setup and generation
 sizeX, sizeY = 200, 50
@@ -35,9 +38,11 @@ entities = {"player": []}
 player = PlayerClass(StartWorld, sizeX)
 entities["player"].append(player)
 EntityClass.worldMatrix = worldMatrix
+particles = Particles(load_particle_data(active_texture_pack))
 
-zoom = 90
-dis = Display("minecraft_regular_versionfile", "MinecraftRegular.ttf", blocksID, entities, zoom)
+
+zoom = 100
+dis = Display(active_texture_pack, "MinecraftRegular.ttf", blocksID, entities, particles.particles_data, zoom)
 
 events = Events()
 convert = Converter(worldLoadDistance, player.getPlayerCoordinates()[0])
@@ -137,8 +142,14 @@ while running:
         if player.XYblockTargeting != None:
             player.XYblockTargeting = dis.XYinWorld(player.XYblockTargeting[0], player.XYblockTargeting[1], True)
 
+        # particles update
+        if events.debugTrigger1:
+            particles.new_particles("block_particle", 100, 0.3 * FPS,(dis.XYinWorld(events.mouseX, events.mouseY)), ((-0.1, 0.1), (-0.1, 0.1)), (0, 0), "deepslate") # (-1, 0)
+        particles.update()
+
+
         # Display Updates
-        dis.displayMain(worldMatrix, entities)
+        dis.displayMain(worldMatrix, entities, particles)
         dis.displayOverlay(events, measuredFPS, measuredTPS, waitLoops)
         pygame.display.update()
 

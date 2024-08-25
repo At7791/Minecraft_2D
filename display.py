@@ -7,13 +7,11 @@ import pygame.font
 import pygame.image
 import pygame.surface
 import pygame.transform
-import entity_code
-from random import randint
 from math import ceil, trunc
 import os
 
 class Display():
-    def __init__(self, texturePackFileName, fontFile, blocksID, entities, zoom):    
+    def __init__(self, texturePackFileName, fontFile, blocksID, entities, particles_data, zoom):    
         pygame.init()
         pygame.display.set_caption("Minecraft 2D")
         self.texturePackFileName = texturePackFileName
@@ -75,6 +73,31 @@ class Display():
             self.image = pygame.transform.scale(self.image, (self.zoom + 1, self.zoom + 1))
             self.breakFrames.append(self.image)
 
+        # generates the dictionary containing every particle texture
+        paths = {}
+        for particle_type in particles_data.keys():
+            paths[particle_type] = []
+            if particles_data[particle_type][1] > 1:
+                for i in range(particles_data[particle_type][1]):
+                    paths[particle_type].append(f"textures/{self.texturePackFileName}/assets/minecraft/textures/particle/{particles_data[particle_type][0]}_{i}.png")
+            elif particles_data[particle_type][1] == 1:
+                paths[particle_type].append(f"textures/{self.texturePackFileName}/assets/minecraft/textures/particle/{particles_data[particle_type][0]}.png")
+            elif particles_data[particle_type][1] == 0:
+                paths[particle_type].append(particles_data[particle_type][0])
+
+        self.particle_textures = {}
+        for particle_type in particles_data.keys():
+            self.particle_textures[particle_type] = []
+            for path in paths[particle_type]:
+                if path == "block_particle":
+                    pass
+                else:
+                    self.image = pygame.image.load(path).convert_alpha()
+                    self.image = pygame.transform.scale(self.image, (particles_data[particle_type][2], particles_data[particle_type][2]))
+                    self.image.fill(particles_data[particle_type][3], special_flags=pygame.BLEND_RGBA_MULT)
+                    self.particle_textures[particle_type].append(self.image)
+
+
     # generates the file path with the block ID
     def getFilePathFromDictionary(self, IDofCurrentBlock):
         self.path = f'textures/{self.texturePackFileName}/assets/minecraft/textures/block/{self.blocksID.get(IDofCurrentBlock)[0]}.png'
@@ -87,14 +110,14 @@ class Display():
         return self.XonScreen, self.YonScreen
     
     # Converts the coordinates on screen into coordinates in Minecraft
-    def XYinWorld(self, x, y, resultTruncated):
+    def XYinWorld(self, x, y, resultTruncated = False):
         self.XinWorld = x / self.zoom + self.player.getPlayerCoordinates()[0] - self.windowSizeX / 2 / self.zoom
         self.YinWorld = - y / self.zoom + self.player.getPlayerCoordinates()[1] + self.windowSizeY / 2 / self.zoom + 1.6
         if resultTruncated == True:
             self.XinWorld, self.YinWorld = trunc(self.XinWorld), trunc(self.YinWorld)
         return self.XinWorld, self.YinWorld
 
-    def displayMain(self, displayedWorld, entities):
+    def displayMain(self, displayedWorld, entities, particles):
         # Display background !
         self.Screen.fill(Color(self.backgroundColor))
 
@@ -109,14 +132,16 @@ class Display():
                         if self.player.XYblockTargeting != None:
                             if self.player.XYblockTargeting == (blockX, blockY):
                                 self.blockBreaking = (blockX, blockY)
-                                pygame.draw.rect(self.Screen, Color("#000000"), (self.XYonScreen(self.player.XYblockTargeting[0], self.player.XYblockTargeting[1] + 1), (self.zoom, self.zoom)), self.blockOutlineThickness)
-
+                                
                     # Uncomment to see black outlines around blockborders
                     # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX, blockY + 1))
                     # pygame.draw.line(self.Screen, Color("black"), self.XYonScreen(blockX, blockY), self.XYonScreen(blockX + 1, blockY))
 
-        if self.blockBreaking != None and self.player.breakTimer != None:
-            self.Screen.blit(self.breakFrames[self.player.breakProgress - 1], (self.XYonScreen(self.blockBreaking[0], self.blockBreaking[1] + 1), (self.zoom, self.zoom)))
+        if self.blockBreaking != None:
+            pygame.draw.rect(self.Screen, Color("#000000"), (self.XYonScreen(self.blockBreaking[0], self.blockBreaking[1] + 1), (self.zoom, self.zoom)), self.blockOutlineThickness)
+
+            if self.player.breakTimer != None:
+                self.Screen.blit(self.breakFrames[self.player.breakProgress - 1], (self.XYonScreen(self.blockBreaking[0], self.blockBreaking[1] + 1), (self.zoom, self.zoom)))
 
         # Display entities !
         for entityType in entities.keys():
@@ -141,6 +166,14 @@ class Display():
                 
                 self.Screen.blit(self.displayedSprite, (self.XYonScreen(entity.hitbox.x - ceil(entity.hitbox.lengthX), entity.hitbox.y + ceil(entity.hitbox.lengthY) - 0.0001)))
                 # pygame.draw.rect(self.Screen, Color("green"), (self.XYonScreen(entity.hitbox.leftBorder, entity.hitbox.highBorder), (self.zoom * entity.hitbox.lengthX, self.zoom * entity.hitbox.lengthY)), 10)
+
+        # Display Particles !
+        for particle_type in particles.active_particles.keys():
+            for particle in particles.active_particles[particle_type]:
+                if particle_type == "block_particle":
+                    self.Screen.blit(self.blockImages[particle.blockType], (self.XYonScreen(particle.x, particle.y)), tuple(i * self.zoom for i in particle.positionOnBlockTexture)) # tuple(i * self.zoom for i in particle.positionOnBlockTexture)
+                else:
+                    self.Screen.blit(self.particle_textures[particle_type][particle.cycle_texture], (self.XYonScreen(particle.x, particle.y)))
 
     def displayOverlay(self, events, measuredFPS, measuredTPS, waitLoops):
         # Minecraft F3 Debug Screen
