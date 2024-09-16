@@ -1,9 +1,2 @@
-__pycache__/*.pyc
-__pycache__/player_code.cpython-39.pyc
-__pycache__/player_code.cpython-39.pyc
-__pycache__/display.cpython-310.pyc
-__pycache__/player_code.cpython-310.pyc
-__pycache__/world_generator.cpython-310.pyc
-__pycache__/world_generator.cpython-310.pyc
-__pycache__/player_code.cpython-310.pyc
-__pycache__/display.cpython-310.pyc
+__pycache__/
+noise_generator/

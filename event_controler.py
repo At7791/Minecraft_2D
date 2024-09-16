@@ -11,6 +11,7 @@ class Events():
         self.jumpKeyPressed = False
         self.f3KeyPressed = False
         self.clickingLeft = False
+        self.exitGame = False
 
         self.mouseX = 0
         self.mouseY = 0
@@ -19,16 +20,13 @@ class Events():
         self.debugTrigger1 = False
 
     def eventsMain(self):
-        
-        
         self.f3KeyPressed = False
         self.debugTrigger1 = False
 
         for event in pygame.event.get():
             # Exit program through pressing the windows red cross
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                self.exitGame = True
             # Mouse related events
             self.mouseX, self.mouseY = pygame.mouse.get_pos()
             if event.type == MOUSEBUTTONDOWN:
@@ -41,8 +39,7 @@ class Events():
             if event.type == KEYDOWN:
                 # Exit program through pressing tab
                 if event.key == K_TAB:
-                    pygame.quit()
-                    sys.exit()
+                    self.exitGame = True
 
                 # Player event related keys
                 if event.key == K_d:

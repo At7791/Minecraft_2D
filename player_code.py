@@ -1,21 +1,23 @@
 from entity_code import EntityClass
 from hitbox_code import Hitboxes
-from pygame import *
-import pygame
-from math import ceil
+from math import floor, ceil
 
 class PlayerClass(EntityClass):
-    def __init__(self, StartWorld, sizeX):
+    def __init__(self, StartWorld):
         self.type = "player"
         super().__init__(self.type)
         self.hitbox = Hitboxes(0.6, 1.8)
-        self.x, self.y = float(StartWorld + sizeX / 2), float(45)
+        self.x, self.y = float(StartWorld), float(5)
         self.count = 0
         self.isSprinting = False
         self.isCrouching = False
 
-        self.XYblockTargeting = None
-        self.lastXYblockTargeting = self.XYblockTargeting
+        self.blockTargetedX, self.blockTargetedY = 0, 0
+        self.lastBlockTargetedX, self.lastBlockTargetedY = None, None
+        self.targetedBlockNatrue = None
+        
+        self.mining = False
+        self.minableTargeted = False
         self.breakTimer = None
         self.breakBlock = False
         self.breakProgress = 0
@@ -36,7 +38,7 @@ class PlayerClass(EntityClass):
         else:
             self.cycle = 0
 
-    def blockMiningTime(self, blockHardness):
+    def miningDuration(self, blockHardness):
         if blockHardness == 0:
             return 0
         
@@ -47,36 +49,54 @@ class PlayerClass(EntityClass):
         # print(blockDamage, ceil(1 / blockDamage))
         if blockDamage > 1:
             return 0
-        
         return ceil(1 / blockDamage)
 
-    def blockInteractions(self, blockHardness):
-        if self.lastXYblockTargeting != self.XYblockTargeting:
-            self.breakTimer = None
-        self.lastXYblockTargeting = self.XYblockTargeting
-        
-        if self.breakTimer == None:
-            self.numberOfTicks = self.blockMiningTime(blockHardness)
-            self.breakTimer = 0
-            self.breakProgress = 0
-            self.breakBlock = False
-            # print(self.numberOfTicks)
+    def blockInteractions(self, blocksID, convert):
 
-        if self.breakTimer >= self.numberOfTicks and self.numberOfTicks >= 0:
-            self.breakTimer = None
-            self.breakBlock = True
-            self.breakProgress = 0
-        else:
-            self.breakTimer += 1
-            if self.numberOfTicks > 0:
-                self.breakProgress = ceil(10 * (self.breakTimer / self.numberOfTicks))
+        self.minableTargeted = False
+        if convert.is_block_in_world((self.blockTargetedX, self.blockTargetedY)):
+            self.targetedBlockNatrue = convert.blockNature((self.blockTargetedX, self.blockTargetedY))
+            if self.targetedBlockNatrue != "air":
+                self.minableTargeted = True
+
+        if self.mining:
+            # Initialize the timer for the block to break
+            if self.breakTimer == None:
+                if self.minableTargeted:
+                    self.numberOfTicks = self.miningDuration(blocksID[self.targetedBlockNatrue][1])
+                    if self.numberOfTicks == 0: # instant mine
+                        self.breakBlock = True
+                    else:
+                        self.breakTimer = 0
+                        self.breakProgress = 0
+            # A block is already beeing broken
             else:
-                self.breakProgress = 1
+                # The player switched to another block
+                if self.lastBlockTargetedX != self.blockTargetedX or self.lastBlockTargetedY != self.blockTargetedY:
+                    self.breakTimer = None
+                # The block broke in this tick
+                elif self.breakTimer >= self.numberOfTicks and self.numberOfTicks >= 0:
+                    self.breakTimer = None
+                    self.breakBlock = True
+                    self.breakProgress = 0
+                # The block continues to be broken
+                else:
+                    self.breakTimer += 1
+                    if self.numberOfTicks > 0:
+                        self.breakProgress = floor(10 * (self.breakTimer / self.numberOfTicks))
+                        if self.breakProgress == 10:
+                            self.breakProgress = 9
+                    else:
+                        self.breakProgress = 0
+        else:
+            self.breakTimer = None
+
+        self.lastBlockTargetedX = self.blockTargetedX
+        self.lastBlockTargetedY = self.blockTargetedY
 
     def updatesPhysics(self, events, calibrationFPS, convert):
         super().updatesPhysics(calibrationFPS, convert)
         self.count += 1
-
 
         # applies the effect to the player movement of the key presses
         if events.forwardKeyPressed == True:
@@ -104,12 +124,13 @@ class PlayerClass(EntityClass):
             self.isSprinting = False
             self.isCrouching = False
         
+        # handels blockinteraction
+        self.blockTargetedX, self.blockTargetedY = convert.XYinWorld(events.mouseX, events.mouseY, True)
 
         if events.clickingLeft == True:
-            self.XYblockTargeting = (events.mouseX, events.mouseY)
+            self.mining = True
         else:
-            self.XYblockTargeting = None
-
+            self.mining = False
 
         # Debug keys
         if events.debugTrigger1 == True:

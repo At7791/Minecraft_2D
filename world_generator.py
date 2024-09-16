@@ -1,6 +1,8 @@
 from random import *
 from math import trunc
 
+from game_data_loader import load_file, save_to_file
+
 def world_generator(sizeX, sizeY, StartWorld, blocksID, HeightBedrockRight1, HeightStoneRight1, HeightDirtRight1):
     worldMatrix = []
     
@@ -103,5 +105,14 @@ def rendering(playerX, RenderDistance, worldMatrixGLOBAL, sizeY, d, e, f, a, b, 
         
         else:
             return IntermediateGeneration, d, e, f, a ,b, c
-    
-    
+
+# world = {}
+# for index in range(-5, 6):
+#     chunk = []
+#     for j in range(10):
+#         chunk.append(["bedrock", "bedrock", "bedrock", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "dirt", "dirt", "dirt"])
+#         for k in range(abs(index) + 1):
+#             chunk[j].append("grass_block")
+#     world[index] = chunk
+
+# save_to_file("assets\local_data\worlds\world1\world.pkl", world)

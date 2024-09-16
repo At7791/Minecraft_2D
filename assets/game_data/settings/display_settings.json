@@ -1,0 +1,10 @@
+{
+    "active_texture_pack": "minecraft_regular_versionfile",
+    "font_path": "MinecraftRegular.ttf",
+    "font_size": 26,
+    "window_size_x": 1920,
+    "window_size_y": 1000,
+    "zoom": 45,
+    "block_outline_thickness": 2,
+    "bg_color": "#b3eeff"
+}
