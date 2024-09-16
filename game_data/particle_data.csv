@@ -1,7 +1,0 @@
-particle_ID,texture_path, number_of_textures, size, red, green, blue, gravityX, gravityY,drag,phase_duration
-block_particle,block_particle,0,50,255,255,255,0,-0.005,0.05,None
-critical_hit,critical_hit, 1,25,198,171,134,0,-0.02,0.3,None
-explosion,explosion,16,400,255,255,255,0,-0.02,0.3,3
-gust,gust,12,400,255,255,255,0,-0.02,0.3,5
-sonic_boom,sonic_boom,16,400,255,255,255,0,-0.02,0.3,5
-sweep,sweep,8,400,255,255,255,0,-0.02,0.3,5

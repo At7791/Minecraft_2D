@@ -15,7 +15,7 @@ class Display():
         self.backgroundColor = data["bg_color"]
         
         fontpath = data["font_path"]
-        self.font = pygame.font.Font(f"fonts\minecraft-font\{fontpath}", data["font_size"])
+        self.font = pygame.font.Font(f"assets/ressources/fonts/minecraft-font/{fontpath}", data["font_size"])
 
 
         self.windowSizeX = Tk().winfo_screenwidth()
